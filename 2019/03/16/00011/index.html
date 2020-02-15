@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<meta name="referrer" content="no-referrer"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dzapathy.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Java 基础知识">
+<meta property="og:url" content="https://dzapathy.github.io/2019/03/16/00011/index.html">
+<meta property="og:site_name" content="Apathy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/15/1POCN9Hrd6aqjxZ.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/05/10/5cd4d675dfeb2.gif">
+<meta property="article:published_time" content="2019-03-16T07:25:25.000Z">
+<meta property="article:modified_time" content="2020-02-15T11:23:59.570Z">
+<meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/15/1POCN9Hrd6aqjxZ.jpg">
+
+<link rel="canonical" href="https://dzapathy.github.io/2019/03/16/00011/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Java 基础知识 | Apathy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apathy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dzapathy.github.io/2019/03/16/00011/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+      <meta itemprop="name" content="Apathy">
+      <meta itemprop="description" content="没有肆意生长的野心<br>哪来梦想的星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apathy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java 基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-16 15:25:25" itemprop="dateCreated datePublished" datetime="2019-03-16T15:25:25+08:00">2019-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-15 19:23:59" itemprop="dateModified" datetime="2020-02-15T19:23:59+08:00">2020-02-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://i.loli.net/2020/02/15/1POCN9Hrd6aqjxZ.jpg" alt="bing"></p>
+<a id="more"></a>
+
+<h2 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h2><ol>
+<li><p>JDK和JRE的区别？<br>JDK全称Java Development Kit，包含Java运行环境（JRE）和开发环境，面向Java开发者，提供了一系列开发工具，比如 javac，需要配置环境变量；<br>JRE全称Java Runtime Enviroment，是Java运行环境，面向Java使用者，不需要配置环境变量；</p>
+</li>
+<li><p><code>equals()</code> 和 <code>==</code> 的区别？<br><code>==</code> 比较的是引用，即在内存空间中的存储位置是否一致；<br><code>equals()</code> 是 <code>Object</code> 类提供的方法，可以由子类重写，如何比较由开发者决定，一般比较的是内容；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Object</code> 类中的 <code>equals()</code> 方法的默认实现和 <code>==</code> 等价，Java 中很多类都对 <code>equals()</code> 方法进行了重写，比如 <code>String</code>；</p>
+</li>
+<li><p>两个对象的 <code>hashCode()</code>相同，则 <code>equals()</code>也一定为 <code>true</code>，对吗？</p>
+<p>理论上要求：</p>
+<p><code>equals()</code> 返回<code>true</code>，<code>hashCode()</code> 返回值相等；<br><code>hashcode()</code> 返回值相等，<code>equals()</code> 不一定返回<code>true</code>；</p>
+<p>实际上：</p>
+<p><code>equals()</code>返回值相等，<code>hashCode()</code>返回值不一定相等；</p>
+<p><code>equals()</code> 重写后，还要重写<code>hashcode()</code>，<code>hashCode()</code> 能提高哈希表的性能；</p>
+</li>
+<li><p><code>final</code> <code>finally</code> <code>finalize</code> 的区别？</p>
+<p><code>final</code>:</p>
+<p>修饰类：该类不能被继承，<code>final</code>类中所有的成员方法都会隐式的定义为<code>final</code>方法；</p>
+<p>修饰方法：该方法不能被重写；</p>
+<p>修饰变量：常量，只能赋值一次，不能更改；</p>
+<p><code>finally</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>finally</code>经常被用作释放资源；</p>
+<p><code>finalize()</code>：</p>
+<p>这个方法在gc启动，该对象被回收的时候被调用；</p>
+</li>
+<li><p>Java基本数据类型？<br><code>byte</code> <code>short</code>  <code>int</code> <code>long</code> <code>double</code> <code>float</code> <code>char</code> <code>boolean</code> ；</p>
+<p><code>Double</code> 和 <code>Float</code> 包装类没有常量池；</p>
+</li>
+<li><p><code>String</code> <code>StringBuffer</code> <code>StringBuilder</code> 的区别？<br><code>String</code>：字符串常量，线程安全；</p>
+<p><code>StringBuffer</code>：字符串变量，线程安全；</p>
+<p><code>StringBuilder</code>：字符串变量，线程不安全；</p>
+</li>
+<li><p>抽象类和接口的区别？</p>
+<ul>
+<li>默认方法实现：抽象类可以有默认方法，接口不可以（Java 8 可以）</li>
+<li>实现：继承抽象类使用extends，实现接口使用implements</li>
+<li>构造方法：抽象类有构造方法，接口没有构造方法</li>
+<li>访问修饰符：抽象类有public、protected、default、private，接口只有public</li>
+<li>main方法：抽象类有main方法，接口没有main方法</li>
+<li>添加新方法：抽象类添加新方法不需要改变子类方法，接口需要改变子类</li>
+</ul>
+</li>
+<li><p><code>switch</code> 接受数据类型</p>
+<p><code>byte</code> <code>short</code> <code>int</code> <code>char</code> <code>String</code> <code>enum</code></p>
+<p>不支持 <code>boolean</code> ！</p>
+</li>
+<li><p>空接口的作用<br>标志着Java类实现了某个特性或功能</p>
+</li>
+<li><p>Java 泛型<br>类型参数化，将类型转换的类型检查从运行时提前到编译时。省去了强制类型转换，提高安全性。</p>
+</li>
+<li><p>自动装箱和自动拆箱</p>
+<ul>
+<li>自动装箱：静态方法 <code>Integer.valueOf()</code></li>
+<li>自动拆箱：实例方法 <code>i.intValue()</code></li>
+</ul>
+</li>
+<li><p>异常</p>
+<ul>
+<li>可检查异常：编译期间能检查到的异常，需要在代码中进行捕获或抛出异常，比如 <code>IOException</code></li>
+<li>运行时异常：只有在运行期才能知道的异常，比如空指针异常，数组越界</li>
+<li>Error：会导致程序处于不正常状态，不需要捕获，比如 <code>OutOfMemoryError</code></li>
+</ul>
+</li>
+<li><p>foreach 与 for</p>
+<ul>
+<li>for：遍历数组结构的数据，采用 for 更优</li>
+<li>foreach：遍历链表结构的数据，采用 foreach 更优</li>
+</ul>
+</li>
+<li><p>静态分派和动态分派</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/sunxianghuang/article/details/52280002" target="_blank" rel="noopener">Java静态分派与动态分派</a></p>
+</blockquote>
+</li>
+</ol>
+<h2 id="Java容器"><a href="#Java容器" class="headerlink" title="Java容器"></a>Java容器</h2><blockquote>
+<p><a href="https://www.cnblogs.com/yysbolg/p/9230184.html" target="_blank" rel="noopener">集合知识点</a></p>
+</blockquote>
+<p><img data-src="https://i.loli.net/2019/05/10/5cd4d675dfeb2.gif" alt="gif"></p>
+<ol>
+<li><p><code>ArrayList</code></p>
+<ul>
+<li>默认大小：10</li>
+<li>扩容：原容量的1.5倍，$oldCapacity + (oldCapacity &gt;&gt; 1)$，使用<code>Arrays.copyOf()</code> 复制数组</li>
+<li>删除元素：使用<code>System.copyOf()​</code> 复制数组</li>
+<li><code>modCount</code>：记录 <code>ArrayList</code> 结构发生变化的次数。<code>ArrayList</code>使用<code>size</code>维护自身状态，<code>Iterator</code>使用<code>cursor</code>维护自身状态，不同步</li>
+</ul>
+</li>
+<li><p><code>Vector</code></p>
+<ul>
+<li><p>默认大小：10</p>
+</li>
+<li><p>扩容：原容量的2倍</p>
+</li>
+</ul>
+</li>
+<li><p><code>CopyOnWriteArrayList</code></p>
+<p>读写分离，写时复制，在写时允许读操作，适用于读多写少的场景；读不加锁，写加锁；不适合内存敏感以及对实时性要求很高的场景；</p>
+</li>
+<li><p><code>LinkedList</code></p>
+<ul>
+<li>默认大小：0</li>
+</ul>
+</li>
+<li><p><code>ArrayList</code>和<code>LinkedList</code>的比较</p>
+<ul>
+<li><code>ArrayList</code>使用动态数组，<code>LinkedList</code>使用双向链表</li>
+<li><code>ArrayList</code>支持随机访问，<code>LinkedList</code>不支持</li>
+<li><code>ArrayList</code>插入删除耗时长，<code>LinkedList</code>能快速插入删除</li>
+</ul>
+</li>
+<li><p><code>HasMap</code></p>
+<ul>
+<li>默认大小：16</li>
+<li>扩容：原容量的2倍</li>
+<li>从 JDK 1.8 开始，一个桶存储的链表长度大于 8 时会将链表转换为红黑树</li>
+<li>允许<code>key = null</code>，放在第0个桶内</li>
+<li>插入元素使用头插法</li>
+<li>遍历时顺序是随机的</li>
+<li>非线程安全</li>
+<li><a href="https://www.cnblogs.com/liujinhong/p/6576543.html" target="_blank" rel="noopener">hash</a></li>
+<li><a href="https://www.cnblogs.com/qiumingcheng/p/5259892.html" target="_blank" rel="noopener">HashMap为什么线程不安全(hash碰撞与扩容导致)</a></li>
+<li><a href="https://www.jianshu.com/p/1e9cf0ac07f4" target="_blank" rel="noopener">HashMap的死循环</a></li>
+</ul>
+</li>
+<li><p><code>fail-fast</code><br>fail-fast 机制是java集合中的一种错误机制。当多个线程对同一个集合的内容进行操作时，就可能会产生fail-fast事件。例如：当某一个线程A通过iterator去遍历某集合的过程中，若该集合的内容被其他线程所改变了；那么线程A访问集合时，就会抛出ConcurrentModificationException异常，产生fail-fast事件。</p>
+</li>
+<li><p><code>HashTable</code></p>
+<ul>
+<li>默认大小：11</li>
+<li>扩容：<code>newsize = olesize*2+1</code></li>
+<li>线程安全</li>
+<li>不允许<code>key = null</code></li>
+<li>迭代器是强一致性</li>
+<li><a href="https://cloud.tencent.com/developer/article/1353456" target="_blank" rel="noopener">HashMap与Hashtable的区别是面试中经常遇到的一个问题</a></li>
+</ul>
+</li>
+<li><p><code>LinkedHashMap</code></p>
+<ul>
+<li>保存了记录的插入顺序，遍历时是有序的</li>
+</ul>
+</li>
+<li><p><code>TreeMap</code></p>
+<ul>
+<li>能够根据键排序，默认按照键的升序排序，遍历时是排好序的</li>
+</ul>
+</li>
+<li><p><code>ConcurrentHashMap</code></p>
+<ul>
+<li>分段锁，初始并发 16</li>
+<li>扩容：segment 内扩容</li>
+<li>迭代器是弱一致性：如果已经遍历完的数据发生了变化，不会抛异常；未遍历到的数据发生了遍历，会遍历到新的数据</li>
+</ul>
+</li>
+</ol>
+<h2 id="Java-多线程"><a href="#Java-多线程" class="headerlink" title="Java 多线程"></a>Java 多线程</h2><blockquote>
+<p><a href="https://blog.csdn.net/zhouxiaoyujcut/article/details/83743310" target="_blank" rel="noopener">线程池使用不当会造成内存溢出</a><br><a href="https://zhuanlan.zhihu.com/p/26724352" target="_blank" rel="noopener">Java Concurrency代码实例之一执行者与线程池</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzA3MTUzOTcxOQ==&mid=2452964569&idx=1&sn=10b22ac390594f03961cf48b72404444" target="_blank" rel="noopener">多线程面试题（一）</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzA3MTUzOTcxOQ==&mid=2452964573&idx=1&sn=6cc0042c0ad129f28a31a8ddad0bceb9" target="_blank" rel="noopener">多线程面试题（二）</a></p>
+</blockquote>
+<p>Java 提供了 JUC 包，包括：</p>
+<p>执行者和线程池</p>
+<ol>
+<li>执行者：<code>Executor</code> 根接口、<code>ExecutorService</code>接口、<code>Executors</code> 工具类</li>
+<li>线程池：<code>ThreadPollExecutor</code> 线程池、<code>Executors.newCachedThreadPool()</code> 线程池、<code>Executors.newFixedThreadPool(int)</code> 线程池、<code>Executors.newSingleThreadPool(int)</code> 线程池</li>
+<li>异步值：<code>Future</code> 接口、<code>FutureTask</code></li>
+<li><code>ForkJoin</code>：<code>ForkJoinPool</code>、<code>RecursiveAction</code>、<code>RecursiveTask</code></li>
+</ol>
+<p>阻塞队列</p>
+<ol>
+<li>LinkedBlockingQueue：链表实现，不可实现公平策略</li>
+<li>ArrayedBlockingQueue：数组实现，实现公平策略</li>
+<li>SynchronousQueue：支持公平策略</li>
+<li>PriorityBlockingQueue</li>
+<li>DelayQueue</li>
+<li>BlockingDeque</li>
+<li>ConcurrentLinkedQueue</li>
+<li>ConcurrentLinkedDeque</li>
+</ol>
+<p>同步工具</p>
+<ol>
+<li><p>CountdownLatch</p>
+</li>
+<li><p>Semaphore</p>
+</li>
+<li><p>CyclicBarrier</p>
+</li>
+<li><p>Exchange</p>
+</li>
+</ol>
+<p>并发集合</p>
+<ol>
+<li>ConcurrentHashMap</li>
+<li>ConcurrentSkipListMap</li>
+<li>CopyOnWriteArrayList</li>
+</ol>
+<p>锁</p>
+<ol>
+<li><p><code>LockSupport</code>：能够实现线程的阻塞和唤醒，不需要放在同步代码块中；<code>unpark()</code> 可以优先于<code>park()</code> 调用</p>
+</li>
+<li><p><code>AQS</code>：一个状态值<code>state</code>、阻塞和唤醒线程的能力<code>LockSupport</code>、阻塞队列</p>
+</li>
+<li><p>RentrantLock</p>
+</li>
+<li><p>Condition</p>
+</li>
+<li><p>ReentrantWriteReadLock</p>
+</li>
+</ol>
+<p>原子变量</p>
+<ol>
+<li>AtomicInteger</li>
+<li>AtomicLong</li>
+<li>AtomicBoolean</li>
+<li>AtomicReference</li>
+<li>AtomicStampedReference</li>
+<li>AtomicMarkableReference</li>
+</ol>
+<h3 id="synchronized-volatile"><a href="#synchronized-volatile" class="headerlink" title="synchronized volatile"></a>synchronized volatile</h3><ul>
+<li><p>synchronized：保证原子性和可见性，不会限制指令重排</p>
+</li>
+<li><p>volatile：保证可见性和有序性，无法保证原子性。Volatile 可用于提供线程安全，但具有使用条件：多个变量之间或某个变量的当前值与修改后的值没有约束。Volatile 用于多线程环境下的单次操作（单次读或单次写）。Volatile 的写操作不能依赖于当前值，读操作不能依赖于其他变量</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/vking_wang/article/details/9982709#" target="_blank" rel="noopener">volatile的适用场景</a></p>
+</blockquote>
+<ul>
+<li>状态标记</li>
+<li>一次性安全发布</li>
+<li>volatile bean 模式</li>
+<li>开销较低的“读写锁”</li>
+</ul>
+</li>
+</ul>
+<p>双重检查单例模式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singletin</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span>(Singleton<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="keyword">null</span>)</span><br><span class="line">                    instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>synchronized：保证执行原子性</li>
+<li>volatile：保证有序性</li>
+</ul>
+<p>如果不加 volatile 无法保证有序性，<code>instance = new Singleton()</code> 可能出现先创建引用再创建对象的情况，此时会出现一个问题：instance 不为 null ，但对象并没有创建万；使用 volatile ，可以保证有序性，保证先创建对象再进行引用赋值</p>
+<h3 id="Java-线程状态转换"><a href="#Java-线程状态转换" class="headerlink" title="Java 线程状态转换"></a>Java 线程状态转换</h3><ul>
+<li>创建</li>
+<li>就绪：<code>Thread.start()</code> 会创建线程，并进入就绪状态等待运行</li>
+<li>运行</li>
+<li>阻塞<ul>
+<li>同步阻塞：<code>synchronized</code></li>
+<li>限期等待：<code>Thread.sleep()</code></li>
+<li>无限期等待：<code>Obiect.wait()</code></li>
+</ul>
+</li>
+<li>终止</li>
+</ul>
+<h3 id="wait-sleep-yield"><a href="#wait-sleep-yield" class="headerlink" title="wait sleep yield"></a>wait sleep yield</h3><ul>
+<li><code>wait()</code>：Object 实例方法，线程会释放锁，线程状态由运行状态变为无限期等待状态</li>
+<li><code>sleep()</code>：Thread 静态方法，线程不会释放锁，线程由运行状态变为限期等待状态</li>
+<li><code>yield()</code>：Thread 静态方法，线程不会释放锁，线程由运行状态变为就绪状态</li>
+</ul>
+<h3 id="多线程优点"><a href="#多线程优点" class="headerlink" title="多线程优点"></a>多线程优点</h3><ul>
+<li>提高应用程序并发度和吞吐量，提高 CPU 利用率</li>
+<li>能够充分利用多核 CPU 或多个 CPU</li>
+<li>线程不仅有 CPU 计算时间，还有 IO 读取时间等。对于单核 CPU 来说，当一个线程等待 IO 到达而被阻塞时，可以执行其他线程，从而提高 CPU 利用率</li>
+</ul>
+<h3 id="ThreadPool"><a href="#ThreadPool" class="headerlink" title="ThreadPool"></a>ThreadPool</h3><ul>
+<li><p><code>Executors.newCachedThreadPool()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line">                                      <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line">                                      <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>核心线程数为 0，最大线程数为 <code>Integer.MAX_VALUE</code>，空闲线程存活时间为 60s ，当线程数超过核心线程数时使用同步队列保存任务。</p>
+<p>由于使用同步队列，如果想将一个元素放入<code>SynchronousQueue</code>，必须至少一个在等待接受这个元素。所以对于缓存线程池，来一个任务，如果有空闲线程会将任务交由空闲线程处理；如果没有空闲线程，再创建一个新的线程处理。</p>
+<p><code>SynchronousQueue</code>的最大线程数是<code>Integer.MAX_VALUE</code>，对于高并发任务，同时创建多个线程很有可能造成内存溢出甚至宕机。</p>
+</li>
+<li><p><code>Executors.newFixedThreadPool(int)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">                                      <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                      <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>核心线程数和最大线程数都是 <code>nThreads</code>，当任务数超过线程数时使用<code>LinkedBlockingQueue</code>。由于<code>LinkedBlockingQueue</code>最大值是<code>Integer.MAX_VALUE</code>，当高并发场景很可能队列太大导致内存溢出。</p>
+</li>
+<li><p><code>Executors.newSingleThreadExecutor()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                                      <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                      <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>同上，单线程能保证任务有序执行。也会存在内存溢出的风险。</p>
+</li>
+</ul>
+<p>由于以上三种线程池在高并发任务中都存在内存溢出的风险，可以使用自己实现的线程池。选择有界队列如<code>ArrayBlockingQueue</code>，并且采取适当的饱和策略，JDK 提供了 4 种饱和策略：</p>
+<ul>
+<li>终止策略：抛异常</li>
+<li>抛弃策略：抛弃任务</li>
+<li>抛弃旧任务策略：抛弃任务</li>
+<li>调用者策略：不抛异常也不抛弃任务，而是将任务交由主线程执行</li>
+</ul>
+<p><code>LinkedBlockingQueue</code> 也是有界队列，默认值为 <code>Integer.MAX_VALUE</code>，也可以自己设定值</p>
+<h3 id="submit-execute"><a href="#submit-execute" class="headerlink" title="submit execute"></a>submit execute</h3><ul>
+<li>submit 提交 callable 方法，有返回值</li>
+<li>execute 提交 runnable 方法，无返回值</li>
+</ul>
+<h3 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h3><blockquote>
+<p><a href="https://www.cnblogs.com/dolphin0520/p/3920407.html" target="_blank" rel="noopener">Java并发编程：深入剖析ThreadLocal</a></p>
+<p><a href="https://www.jianshu.com/p/a1cd61fa22da" target="_blank" rel="noopener">ThreadLocal内存泄漏真因探究</a></p>
+</blockquote>
+<p>每个 Thread 都有 threadlocals 成员变量，其类型是<code>ThreadLocal.ThreadLocalMap</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal.ThreadLocalMap threadLocals = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+<p>当调用 <code>ThreadLocal</code> 类的 <code>get()</code> 和 <code>set()</code> 方法时，实际上是拿到 thread 类的 threadLocals 变量。</p>
+<p>ThreadLocal 的应用场景：</p>
+<ul>
+<li>数据库连接</li>
+<li>Session 管理</li>
+<li>Web 请求</li>
+<li>…</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Apathy WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/14/00010/" rel="prev" title="TCP">
+      <i class="fa fa-chevron-left"></i> TCP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/17/00012/" rel="next" title="操作系统-基础知识">
+      操作系统-基础知识 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java基础"><span class="nav-number">1.</span> <span class="nav-text">Java基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java容器"><span class="nav-number">2.</span> <span class="nav-text">Java容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-多线程"><span class="nav-number">3.</span> <span class="nav-text">Java 多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized-volatile"><span class="nav-number">3.1.</span> <span class="nav-text">synchronized volatile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-线程状态转换"><span class="nav-number">3.2.</span> <span class="nav-text">Java 线程状态转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wait-sleep-yield"><span class="nav-number">3.3.</span> <span class="nav-text">wait sleep yield</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程优点"><span class="nav-number">3.4.</span> <span class="nav-text">多线程优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadPool"><span class="nav-number">3.5.</span> <span class="nav-text">ThreadPool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#submit-execute"><span class="nav-number">3.6.</span> <span class="nav-text">submit execute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">3.7.</span> <span class="nav-text">ThreadLocal</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Apathy"
+      src="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+  <p class="site-author-name" itemprop="name">Apathy</p>
+  <div class="site-description" itemprop="description">没有肆意生长的野心<br>哪来梦想的星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dzapathy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dzapathy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>   
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

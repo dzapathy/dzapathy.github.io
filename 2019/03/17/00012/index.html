@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<meta name="referrer" content="no-referrer"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dzapathy.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="操作系统-基础知识">
+<meta property="og:url" content="https://dzapathy.github.io/2019/03/17/00012/index.html">
+<meta property="og:site_name" content="Apathy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/15/Js1PXKOiQjWDLwr.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2ln6kogouj20io0buacy.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2ln8e8w29j20uk05o0tu.jpg">
+<meta property="article:published_time" content="2019-03-17T02:58:30.000Z">
+<meta property="article:modified_time" content="2020-02-15T11:38:39.811Z">
+<meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Operating Systems">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/15/Js1PXKOiQjWDLwr.jpg">
+
+<link rel="canonical" href="https://dzapathy.github.io/2019/03/17/00012/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>操作系统-基础知识 | Apathy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apathy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dzapathy.github.io/2019/03/17/00012/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+      <meta itemprop="name" content="Apathy">
+      <meta itemprop="description" content="没有肆意生长的野心<br>哪来梦想的星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apathy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          操作系统-基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-17 10:58:30" itemprop="dateCreated datePublished" datetime="2019-03-17T10:58:30+08:00">2019-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-15 19:38:39" itemprop="dateModified" datetime="2020-02-15T19:38:39+08:00">2020-02-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://i.loli.net/2020/02/15/Js1PXKOiQjWDLwr.jpg" alt="Tegallalang_ZH-CN1855493751_1920x1080.jpg"></p>
+<a id="more"></a>
+
+<blockquote>
+<p><a href="http://www.xuetangx.com/courses/course-v1:TsinghuaX+30240243X+sp/about" target="_blank" rel="noopener">操作系统视频</a></p>
+</blockquote>
+<h2 id="基本特征"><a href="#基本特征" class="headerlink" title="基本特征"></a>基本特征</h2><ul>
+<li><p>并发</p>
+<ul>
+<li>并发：在一段时间内同时运行多个程序。操作系统引入进程和线程，使得程序能够并发执行</li>
+<li>并行：在同一时刻同时运行多个指令。并行需要硬件支持，比如多核 CPU</li>
+</ul>
+</li>
+<li><p>共享</p>
+<p>系统中的资源可以被多个并发进程共享</p>
+<ul>
+<li>互斥共享：互斥共享的资源称为临界区。在同一时刻只允许一个进程访问，需要用同步机制来实现临界区的访问</li>
+<li>同时共享：同一时刻运行多个进程访问，不需要同步机制</li>
+</ul>
+</li>
+<li><p>虚拟</p>
+<p>把物理实体转化为逻辑实体</p>
+<ul>
+<li>时分复用技术：进程或线程的时间片轮询技术。每个虚拟处理器获得时间片后，可供进程执行</li>
+<li>空分复用技术：虚拟内存</li>
+</ul>
+</li>
+<li><p>异步</p>
+<p>进程不是一次性执行完毕，而是走走停停，以不可知的速度向前推进</p>
+</li>
+</ul>
+<h2 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h2><ul>
+<li><p>进程管理</p>
+<p>进程控制、进程同步、死锁处理、进程通信等</p>
+</li>
+<li><p>内存管理</p>
+<p>内存分配、内存映射、虚拟内存、内存保护和共享等</p>
+</li>
+<li><p>文件管理</p>
+<p>文件存储、目录管理、文件访问和保护等</p>
+</li>
+<li><p>设备管理</p>
+<p>缓冲管理、设备分配、设备处理等</p>
+</li>
+</ul>
+<h2 id="用户态-amp-内核态"><a href="#用户态-amp-内核态" class="headerlink" title="用户态 &amp; 内核态"></a>用户态 &amp; 内核态</h2><p>操作系统启动之后，会加载操作系统的内核，然后将操作系统的控职权交由内核管理。内核与应用程序、外部设备等打交道</p>
+<h3 id="用户态和内核态"><a href="#用户态和内核态" class="headerlink" title="用户态和内核态"></a>用户态和内核态</h3><ul>
+<li>当进程执行应用程序的代码时，处于用户态</li>
+<li>当进程通过系统调用陷入内核态执行内核代码时，处于内核态</li>
+</ul>
+<p>用户态和内核态是操作系统的两种运行级别，用户态的运行级别最低，内核态的运行级别最高；对 Linux 操作系统来说，当程序运行在3级特权时处于用户态，当程序运行在0级特权时处于内核态</p>
+<p>对于 32 位操作系统来说，用户态的地址空间是$0 \sim 3G-1$，内核态的地址空间是$3G \sim 4G-1$</p>
+<h3 id="用户态转内核态（中断）"><a href="#用户态转内核态（中断）" class="headerlink" title="用户态转内核态（中断）"></a>用户态转内核态（中断）</h3><ul>
+<li>系统调用</li>
+<li>异常</li>
+<li>外中断</li>
+</ul>
+<p>系统调用、异常、外中断可以统称为中断，中断根据来源不同还可以分为硬中断和软中断</p>
+<ul>
+<li>硬中断：由硬件发出的中断请求</li>
+<li>软中断：由软件发出的中断请求</li>
+</ul>
+<p>由用户态转内核态的系统开销会很大：</p>
+<ul>
+<li>引导机制</li>
+<li>建立内核堆栈</li>
+<li>验证参数</li>
+<li>内核态映射到用户态的地址空间</li>
+</ul>
+<h4 id="系统调用-amp-异常"><a href="#系统调用-amp-异常" class="headerlink" title="系统调用 &amp; 异常"></a>系统调用 &amp; 异常</h4><p>操作系统与应用程序打交道主要通过系统调用和异常实现</p>
+<ul>
+<li>系统调用：应用程序调用系统调用接口，主动向操作系统发出的服务请求，应用程序正常运行</li>
+<li>异常：应用程序产生异常，指令执行失败，内核通过异常服务处理，捕获到应用程序的异常并抛出异常</li>
+</ul>
+<h4 id="外中断"><a href="#外中断" class="headerlink" title="外中断"></a>外中断</h4><p>操作系统与外部设备打交道主要通过中断机制实现。例，键盘输入时会把数据写到一个特定的缓冲区，这个缓冲区有大小限制，如果数据超过其限制大小就会造成数据丢失，所以外部设备需要通过中断机制，及时向内核发出指令，然后内核通过调用设备驱动程序，及时把缓冲区的内容读写到内核中</p>
+<p>中断和陷入：</p>
+<ul>
+<li><p>外中断（中断）</p>
+<p>CPU 外部引起的中断。中断是 CPU 对 IO 设备发来的中断信号的一种响应。当发生中断时，CPU 停止正在执行的程序，保留 CPU 的环境，转而去执行相应的中断处理程序。执行完中断处理程序后，再回到 CPU 断点继续执行原来的程序</p>
+</li>
+<li><p>内中断（陷入）</p>
+<p>CPU 内部引起的中断，如非法指令、地址越界等。当发生陷入时，CPU 停止正在执行的程序，保留 CPU 的环境，转而去执行陷入处理程序。执行完陷入处理程序后，再回到 CPU 断点继续执行原来的程序</p>
+</li>
+</ul>
+<h4 id="中断处理方式"><a href="#中断处理方式" class="headerlink" title="中断处理方式"></a>中断处理方式</h4><ul>
+<li><p>屏蔽中断</p>
+<p>当 CPU 处理一个中断时，会屏蔽其他的中断，直到 CPU 处理完本次中断后再去检查是否还有中断发生</p>
+<p>优点：简单</p>
+<p>缺点：不适用实时性比较高的中断</p>
+</li>
+<li><p>嵌套中断</p>
+<p>设置中断优先级。当同时有多个优先级的中断请求时，CPU 优先处理高优先级的中断；高优先级的中断可以抢占正在运行的低优先级的中断</p>
+</li>
+</ul>
+<p><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2ln6kogouj20io0buacy.jpg" alt="pic"></p>
+<h4 id="三者比较"><a href="#三者比较" class="headerlink" title="三者比较"></a>三者比较</h4><ul>
+<li>源头：中断是外设引起的，系统调用是应用程序主动请求系统服务，异常是应用程序意想不到的错误</li>
+<li>响应方式：中断是异步的，系统调用是同步或异步的，异常是同步的</li>
+</ul>
+<h2 id="大内核-amp-微内核"><a href="#大内核-amp-微内核" class="headerlink" title="大内核 &amp; 微内核"></a>大内核 &amp; 微内核</h2><ul>
+<li>大内核：将操作系统的功能作为紧密的整体放到内核中<ul>
+<li>优点：各模块共享信息，性能高</li>
+<li>内核复杂度高</li>
+</ul>
+</li>
+<li>微内核：将一部分功能移除内核，降低内核的复杂度<ul>
+<li>内核复杂度低</li>
+<li>频繁进行系统调用，造成性能开销。应用进程与移到用户态的操作系统功能需要通过内核来进行通信</li>
+</ul>
+</li>
+</ul>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>高级语言编译成汇编语言，汇编语言再次编译成二进制程序，如果有函数调用需要经过连接进行合并生成最终的目标文件</p>
+<p><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2ln8e8w29j20uk05o0tu.jpg" alt="pic"></p>
+<p>静态链接和动态链接</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/lisongjia123/article/details/49003159" target="_blank" rel="noopener">静态链接和动态链接</a></p>
+</blockquote>
+<ul>
+<li><p>静态链接</p>
+<p>在生成可执行文件时，把所有需要的函数的二进制码都包含到可执行文件中</p>
+</li>
+<li><p>动态链接<br>在真正使用时，才会将使用的函数的二进制码调入到内存中</p>
+</li>
+</ul>
+<h2 id="硬链接-amp-软连接"><a href="#硬链接-amp-软连接" class="headerlink" title="硬链接 &amp; 软连接"></a>硬链接 &amp; 软连接</h2><blockquote>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/index.html" target="_blank" rel="noopener">理解 Linux 的硬链接与软链接</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Apathy WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Operating-Systems/" rel="tag"># Operating Systems</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/16/00011/" rel="prev" title="Java 基础知识">
+      <i class="fa fa-chevron-left"></i> Java 基础知识
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/17/00013/" rel="next" title="计算机网络-基础知识">
+      计算机网络-基础知识 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本特征"><span class="nav-number">1.</span> <span class="nav-text">基本特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本功能"><span class="nav-number">2.</span> <span class="nav-text">基本功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户态-amp-内核态"><span class="nav-number">3.</span> <span class="nav-text">用户态 &amp; 内核态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户态和内核态"><span class="nav-number">3.1.</span> <span class="nav-text">用户态和内核态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户态转内核态（中断）"><span class="nav-number">3.2.</span> <span class="nav-text">用户态转内核态（中断）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#系统调用-amp-异常"><span class="nav-number">3.2.1.</span> <span class="nav-text">系统调用 &amp; 异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外中断"><span class="nav-number">3.2.2.</span> <span class="nav-text">外中断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中断处理方式"><span class="nav-number">3.2.3.</span> <span class="nav-text">中断处理方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三者比较"><span class="nav-number">3.2.4.</span> <span class="nav-text">三者比较</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大内核-amp-微内核"><span class="nav-number">4.</span> <span class="nav-text">大内核 &amp; 微内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链接"><span class="nav-number">5.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬链接-amp-软连接"><span class="nav-number">6.</span> <span class="nav-text">硬链接 &amp; 软连接</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Apathy"
+      src="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+  <p class="site-author-name" itemprop="name">Apathy</p>
+  <div class="site-description" itemprop="description">没有肆意生长的野心<br>哪来梦想的星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dzapathy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dzapathy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>   
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

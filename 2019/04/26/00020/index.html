@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<meta name="referrer" content="no-referrer"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dzapathy.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Spring">
+<meta property="og:url" content="https://dzapathy.github.io/2019/04/26/00020/index.html">
+<meta property="og:site_name" content="Apathy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/15/WjsxNtnEziaOM3P.jpg">
+<meta property="article:published_time" content="2019-04-26T04:15:07.000Z">
+<meta property="article:modified_time" content="2020-02-15T11:33:01.564Z">
+<meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/15/WjsxNtnEziaOM3P.jpg">
+
+<link rel="canonical" href="https://dzapathy.github.io/2019/04/26/00020/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Spring | Apathy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apathy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dzapathy.github.io/2019/04/26/00020/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+      <meta itemprop="name" content="Apathy">
+      <meta itemprop="description" content="没有肆意生长的野心<br>哪来梦想的星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apathy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-26 12:15:07" itemprop="dateCreated datePublished" datetime="2019-04-26T12:15:07+08:00">2019-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-15 19:33:01" itemprop="dateModified" datetime="2020-02-15T19:33:01+08:00">2020-02-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://i.loli.net/2020/02/15/WjsxNtnEziaOM3P.jpg" alt="SquirrelHeather_ZH-CN1683129884_1920x1080.jpg"></p>
+<a id="more"></a>
+
+<p>Spring 是轻量级的 IOC 和 AOP 框架，是为 Java 应用程序提供基础服务的框架。目的是为了简化企业应用程序的开发，让开发人员只关心业务逻辑。Spring 是模块式的框架，包括 20 多个模块。</p>
+<ul>
+<li>Spring core：提供 IOC 容器</li>
+<li>Spring context：提供 Spring 应用程序上下文信息</li>
+<li>Spring AOP：提供 AOP 功能</li>
+<li>Spring Dao：提供数据库访问的统一接口，对 JDBC 的抽象和封装</li>
+<li>Spring ORM：集成 ORM 框架，比如 Struts、Mybatis 等</li>
+<li>Spring Web：提供 Spring web 程序的上下文信息</li>
+<li>Spring MVC：Spring 的 MVC 框架</li>
+</ul>
+<h2 id="Spring-优点"><a href="#Spring-优点" class="headerlink" title="Spring 优点"></a>Spring 优点</h2><ul>
+<li>Spring 简化企业应用程序的开发，使开发人员只关心业务逻辑</li>
+<li>Spring 使用 IOC 容器管理 bean，可以通过 DI 注入对象，减小了代码的耦合度</li>
+<li>Spring 提供 AOP 技术，提高代码的可复用性。通过使用 AOP 可以实现事务、权限校验、日志、安全等功能</li>
+<li>Spring 对主流框架提供了集成支持，方便开发人员灵活的选择技术</li>
+</ul>
+<h2 id="IOC-初始化过程"><a href="#IOC-初始化过程" class="headerlink" title="IOC 初始化过程"></a>IOC 初始化过程</h2><ul>
+<li><p>Resource 定位（Bean 的定义文件定位）</p>
+<p>获取文件。Resource 是 Spring 封装的 IO 操作接口，可以读取 XML、文件、二进制流、classpath 等</p>
+</li>
+<li><p>将 Resource 定位好的资源载入到 BeanDefinition</p>
+<p>解析文件。bean 在 Spring IOC 内部被表示成了 BeanDefinition 这种数据结构</p>
+</li>
+<li><p>将 BeanDefinition 注册到容器中</p>
+<p>将 BeanDefinition 封装成 BeanDefinitionHolder 类并注册到 beanDefinitionMap 中</p>
+</li>
+</ul>
+<h2 id="Bean-生命周期"><a href="#Bean-生命周期" class="headerlink" title="Bean 生命周期"></a>Bean 生命周期</h2><p>Spring IOC 容器主要包括 BeanFactory 和 ApplicationContext 两类，用于创建和管理 bean 。bena 的生命周期中涉及两个易混淆的概念：</p>
+<ul>
+<li>实例化：创建对象，并为对象开辟空间</li>
+<li>初始化：对对象中的值赋上初始值</li>
+</ul>
+<h3 id="ApplicationContext-生命周期"><a href="#ApplicationContext-生命周期" class="headerlink" title="ApplicationContext 生命周期"></a>ApplicationContext 生命周期</h3><ul>
+<li>由 ApplicationContext 读取配置文件或配置类，并通过 Java 反射机制调用 bean 的构造方法生成实例</li>
+<li>setter 方法注入</li>
+<li>如果实现了 <code>BeanNameAware</code> 接口，执行 <code>setBeanName()</code> 方法（为 bean 命名）</li>
+<li><strong>如果实现了 <code>ApplicationContextAware</code> 接口，执行 <code>setApplicationContext()</code> 方法</strong></li>
+<li>如果实现了 <code>BeanPostProcessor</code> 接口，执行 <code>processBeforeInitialization()</code> 方法（初始化前代理）</li>
+<li>如果实现了 <code>InitializingBean</code> 接口，执行  <code>afterPropertiesSet()</code> 方法</li>
+<li>如果定义了 <code>init-method</code> ，执行 <code>init-method</code> 方法（初始化方法）</li>
+<li>如果实现了 <code>BeanPostProcessor</code>  接口，执行 <code>processAfterInitialization()</code> 方法（初始化后代理）</li>
+<li>如果实现了 <code>DisposableBean</code> 接口，在容器关闭时执行 <code>destroy()</code> 方法</li>
+<li>如果定义了 <code>destory-method</code> ，在容器关闭时执行 <code>destory-method</code> 方法</li>
+</ul>
+<h3 id="BeanFactory-amp-ApplicationContext"><a href="#BeanFactory-amp-ApplicationContext" class="headerlink" title="BeanFactory &amp; ApplicationContext"></a>BeanFactory &amp; ApplicationContext</h3><ul>
+<li>BeanFactory 是 Spring 中最底层的接口，提供了实例化对象和获取对象的方法；ApplicationContext 是 BeanFactory 的子接口，并提供了更多的功能，包括国际化、载入多个上下文、AOP 等</li>
+<li>BeanFactory 在启动时不会实例化 bean，只有在使用时才会去实例化；ApplicationContext 在启动时就会实例化 bean</li>
+</ul>
+<h2 id="Bean-作用域"><a href="#Bean-作用域" class="headerlink" title="Bean 作用域"></a>Bean 作用域</h2><ul>
+<li>singleton</li>
+<li>prototype</li>
+<li>request</li>
+<li>session</li>
+<li>global-session：仅在门户网站中有意义</li>
+</ul>
+<h2 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h2><blockquote>
+<p><a href="https://segmentfault.com/a/1190000013882720#articleHeader8" target="_blank" rel="noopener">循环依赖问题</a></p>
+</blockquote>
+<ul>
+<li>构造器循环依赖：无法解决，抛出 <code>BeanCurrentlyInCreationException</code> 异常</li>
+<li>setter 方法循环依赖：只能解决单例作用域的循环依赖</li>
+</ul>
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><blockquote>
+<p><a href="https://segmentfault.com/a/1190000007469968" target="_blank" rel="noopener">彻底征服 Spring AOP 之 理论篇</a><br><a href="https://segmentfault.com/a/1190000007469982" target="_blank" rel="noopener">彻底征服 Spring AOP 之 实战篇</a></p>
+</blockquote>
+<p>AOP 全称是面向切面编程，是面向对象编程的补充。 AOP 将可重用代码抽取出来并封装在一个模块中，便于代码复用。使用 AOP 可以实现事务、安全、日志和权限校验等功能。Spring AOP 是基于动态代理的，使用 JDK 动态代理和 cglib 动态代理。</p>
+<ul>
+<li>静态代理：在编译阶段生成 AOP 代理类，也称为编译时增强。在编译时将切面织入 Java 字节码中，运行时就是被增强的 AOP 对象</li>
+<li>动态代理：不修改 Java 字节码，而是在运行时在内存中生成 AOP 对象，这个对象包含了目标对象的全部方法，并且在特定的切点进行了增强</li>
+</ul>
+<h3 id="AOP-执行顺序"><a href="#AOP-执行顺序" class="headerlink" title="AOP 执行顺序"></a>AOP 执行顺序</h3><p>没有异常的执行顺序：</p>
+<ul>
+<li>around before advice</li>
+<li>before advice</li>
+<li>target method</li>
+<li>around after advice</li>
+<li>after advice</li>
+<li>afterReturning</li>
+</ul>
+<p>有异常的执行顺序：</p>
+<ul>
+<li>around before advice</li>
+<li>before advice</li>
+<li>target method</li>
+<li>around after advice</li>
+<li>after advice</li>
+<li>afterThrowing</li>
+<li>java.lang.RuntimeException</li>
+</ul>
+<h2 id="事务传播行为"><a href="#事务传播行为" class="headerlink" title="事务传播行为"></a>事务传播行为</h2><blockquote>
+<p><a href="https://segmentfault.com/a/1190000013341344#articleHeader8" target="_blank" rel="noopener">spring 事务传播行为详解</a></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    methodB();</span><br><span class="line">    methodC();</span><br><span class="line">    <span class="comment">// doSomething</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Transaction</span>(Propagation=XXX)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodB</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// doSomething</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Transaction</span>(Propagation=XXX)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodC</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// doSomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>Propagation_REQUIRED</code></p>
+<ul>
+<li>如果外围方法<code>methodA()</code>未开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>会自己的创建事务，并且事务之间相互独立</li>
+<li>如果外围方法<code>methodA()</code>开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>会使用外围方法的事务，即三个方法使用一个事务。只要有一个方法回滚，整个事务回滚</li>
+</ul>
+</li>
+<li><p><code>PROPAGATION_REQUIRES_NEW</code></p>
+<ul>
+<li>如果外围方法<code>methodA()</code>未开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>会自己的创建事务，并且事务之间相互独立</li>
+<li>如果外围方法<code>methodA()</code>开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>会自己的创建事务，并且事务之间相互独立，和外围事务也相互独立</li>
+</ul>
+</li>
+<li><p><code>PROPAGATION_NESTED</code></p>
+<ul>
+<li>如果外围方法<code>methodA()</code>未开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>会自己的创建事务，并且事务之间相互独立</li>
+<li>如果外围方法<code>methodA()</code>开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>的事务是外围方法的子事务，属于嵌套关系，外围事务回滚，子事务一定回滚；子事务回滚，不影响外围事务和其他子事务</li>
+</ul>
+</li>
+<li><p><code>PROPAGATION_SUPPORTS</code></p>
+<ul>
+<li>如果外围方法<code>methodA()</code>未开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>以非事务方式运行</li>
+<li>如果外围方法<code>methodA()</code>开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>使用外围方法的事务</li>
+</ul>
+</li>
+<li><p><code>PROPAGATION_MANDATORY</code></p>
+<ul>
+<li>如果外围方法<code>methodA()</code>未开启事务，抛异常</li>
+<li>如果外围方法<code>methodA()</code>开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>使用外围方法的事务</li>
+</ul>
+</li>
+<li><p><code>PROPAGATION_NOT_SUPPORTED</code></p>
+<ul>
+<li><p>如果外围方法<code>methodA()</code>未开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>以非事务方式运行</p>
+</li>
+<li><p>如果外围方法<code>methodA()</code>开启事务，将外围方法的事务挂起，内部方法<code>methodB()</code>和<code>methodC()</code>以非事务方式运行</p>
+</li>
+</ul>
+</li>
+<li><p><code>PROPAGATION_NEVER</code></p>
+<ul>
+<li>如果外围方法<code>methodA()</code>开启事务，抛出异常</li>
+<li>如果外围方法<code>methodA()</code>未开启事务，内部方法<code>methodB()</code>和<code>methodC()</code>以非事务方式运行</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><p><a href="https://blog.csdn.net/a745233700/article/details/80959716" target="_blank" rel="noopener">Spring常见面试题总结</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/63ad69c480fe/" target="_blank" rel="noopener">Spring Boot 面试题</a></p>
+</li>
+<li><p><a href="http://ifeve.com/spring-interview-questions-and-answers/" target="_blank" rel="noopener">69道Spring面试题和答案</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/jingmoxukong/p/9408037.html" target="_blank" rel="noopener">Spring 面试问题 TOP 50</a></p>
+</li>
+<li><p><a href="https://segmentfault.com/a/1190000013882720" target="_blank" rel="noopener">Spring 常见的一些面试题整理</a></p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Apathy WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Spring/" rel="tag"># Spring</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/04/26/00019/" rel="prev" title="操作系统-内存管理">
+      <i class="fa fa-chevron-left"></i> 操作系统-内存管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/27/00021/" rel="next" title="操作系统-设备管理">
+      操作系统-设备管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-优点"><span class="nav-number">1.</span> <span class="nav-text">Spring 优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC-初始化过程"><span class="nav-number">2.</span> <span class="nav-text">IOC 初始化过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean-生命周期"><span class="nav-number">3.</span> <span class="nav-text">Bean 生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ApplicationContext-生命周期"><span class="nav-number">3.1.</span> <span class="nav-text">ApplicationContext 生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BeanFactory-amp-ApplicationContext"><span class="nav-number">3.2.</span> <span class="nav-text">BeanFactory &amp; ApplicationContext</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean-作用域"><span class="nav-number">4.</span> <span class="nav-text">Bean 作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环依赖"><span class="nav-number">5.</span> <span class="nav-text">循环依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">6.</span> <span class="nav-text">AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP-执行顺序"><span class="nav-number">6.1.</span> <span class="nav-text">AOP 执行顺序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务传播行为"><span class="nav-number">7.</span> <span class="nav-text">事务传播行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">8.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Apathy"
+      src="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+  <p class="site-author-name" itemprop="name">Apathy</p>
+  <div class="site-description" itemprop="description">没有肆意生长的野心<br>哪来梦想的星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dzapathy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dzapathy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>   
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

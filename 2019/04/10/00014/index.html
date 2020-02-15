@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<meta name="referrer" content="no-referrer"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dzapathy.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="JVM">
+<meta property="og:url" content="https://dzapathy.github.io/2019/04/10/00014/index.html">
+<meta property="og:site_name" content="Apathy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/15/lwJrjL6B8sZDuSH.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26ccb287b9.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26cfdcc1da.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26d2cae0cf.png">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2ri5yp3jxj20fy0acta3.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g2ries5pyoj20kt0cttc3.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g2rh3u9fqwj20ie07ytcy.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2lof9a3naj20jm06vq35.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2lofww1cij20ry0bamy6.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2lognuym9j20yt0cbwg4.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26e4932e1f.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g2lohfiw34j20k70bjt9j.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2loi3xmchj20sc0z5tcm.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g2loivht55j20ig09qjrp.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26dd160f66.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26dff2a41a.png">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2rivyd4fcj20e007y0t2.jpg">
+<meta property="article:published_time" content="2019-04-10T08:29:16.000Z">
+<meta property="article:modified_time" content="2020-02-15T11:27:19.206Z">
+<meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/15/lwJrjL6B8sZDuSH.jpg">
+
+<link rel="canonical" href="https://dzapathy.github.io/2019/04/10/00014/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>JVM | Apathy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apathy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dzapathy.github.io/2019/04/10/00014/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+      <meta itemprop="name" content="Apathy">
+      <meta itemprop="description" content="没有肆意生长的野心<br>哪来梦想的星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apathy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JVM
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-10 16:29:16" itemprop="dateCreated datePublished" datetime="2019-04-10T16:29:16+08:00">2019-04-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-15 19:27:19" itemprop="dateModified" datetime="2020-02-15T19:27:19+08:00">2020-02-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://i.loli.net/2020/02/15/lwJrjL6B8sZDuSH.jpg" alt="bing"></p>
+<a id="more"></a>
+
+<h2 id="自动内存管理机制"><a href="#自动内存管理机制" class="headerlink" title="自动内存管理机制"></a>自动内存管理机制</h2><p>内存分配 ＆ 垃圾回收</p>
+<h3 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h3><p><img data-src="https://i.loli.net/2019/04/26/5cc26ccb287b9.png" alt="pic"></p>
+<ul>
+<li><p>程序计数器</p>
+<p>记录正在运行的虚拟机字节码指令的地址，当前线程所执行的字节码的行号指示器。本地方法由于调用的是操作系统的方法，无虚拟机字节码指令，故程序计数器为<code>null</code>。</p>
+<ul>
+<li>程序计数器无<code>OutOfMemoryError</code></li>
+</ul>
+</li>
+<li><p>Java虚拟机栈<br><img data-src="https://i.loli.net/2019/04/26/5cc26cfdcc1da.png" alt="pic"></p>
+<ul>
+<li>栈帧：Java虚拟机栈的栈元素是栈帧。当Java方法被调用时，代表这个方法的栈帧入栈；当Java方法返回时，栈帧出栈<ul>
+<li>局部变量表</li>
+<li>操作数栈</li>
+<li>动态链接<br>每个栈帧都包含一个指向运行时常量池中该栈帧所属方法的引用，持有这个引用是为了支持方法调用过程中的动态连接</li>
+<li>方法出口</li>
+<li>…</li>
+</ul>
+</li>
+<li>局部变量表：存储方法的局部变量以及方法参数，不能直接使用，必须通过相关指令将其压入操作数栈中再使用。局部变量表的空间单位是<code>slot</code>，对于 32 位之内的数据，用一个 slot 来存放，如 int，short，float 等；对于 64 位的数据用连续的两个 slot 来存放，如 long，double 等<ul>
+<li>基本数据类型</li>
+<li>对象引用</li>
+<li>方法参数</li>
+</ul>
+</li>
+<li>操作数栈：Java 虚拟机指令由操作码和操作数组成。操作码是代表某种特定操作含义的数字，操作数是操作码的参数。Java 方法的操作码存储在操作码栈中，操作数栈可理解为 Java 虚拟机栈中的一个用于计算的临时数据存储区</li>
+<li>StackOverflowError：若单个线程请求的栈深度大于虚拟机允许的深度，则会抛出StackOverflowError</li>
+<li>OutOfMemoryError：当整个虚拟机栈内存耗尽，并且无法再申请到新的内存时抛出的异常<ul>
+<li>内存溢出：系统已经不能再分配你所需要的空间，比如你需要100M的空间，系统只剩90M了，这就叫内存溢出</li>
+<li>内存泄露：意思就是你用资源的时候为他开辟了一段空间，当你用完时忘记释放资源了，这时内存还被占用着，一次没关系，但是内存泄漏次数多了就会导致内存溢出</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>本地方法栈</p>
+<p><img data-src="https://i.loli.net/2019/04/26/5cc26d2cae0cf.png" alt="pic"></p>
+<p>Java 可以通过 JNI 来调用其他语言的程序，在Java里用 <code>native</code> 修饰符表示本地方法。本地方法如果是以字节码实现的话，可以将 Java 虚拟机栈和本地方法栈合并，<code>hotspot</code>虚拟机把虚拟机栈和本地方法栈合二为一。本地方法可以通过本地方法接口来访问虚拟机的运行时数据区</p>
+<p><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2ri5yp3jxj20fy0acta3.jpg" alt="pic"></p>
+</li>
+<li><p>堆（GC堆）</p>
+<ul>
+<li><p>对象实例</p>
+</li>
+<li><p>数组：数组也是对象</p>
+<p><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g2ries5pyoj20kt0cttc3.jpg" alt="pic"></p>
+</li>
+</ul>
+</li>
+<li><p>方法区</p>
+<ul>
+<li>已被加载的类信息</li>
+<li>常量</li>
+<li>静态变量</li>
+<li>即时编译器编译的代码</li>
+<li>…</li>
+</ul>
+<p><img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g2rh3u9fqwj20ie07ytcy.jpg" alt="pic"></p>
+<p>方法信息中包含方法字节码</p>
+</li>
+<li><p>运行时常量池<br>Class 文件中的常量池（编译器生成的字面量和符号引用）会在类加载后被放入这个区域</p>
+</li>
+</ul>
+<h3 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h3><h4 id="堆对象回收"><a href="#堆对象回收" class="headerlink" title="堆对象回收"></a>堆对象回收</h4><p><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2lof9a3naj20jm06vq35.jpg" alt="对象.png"></p>
+<ul>
+<li><p>引用计数算法<br>给对象添加引用计数器，当有一个地方引用时，计数器+1；当引用失效时，计数器-1；计数器为0的对象可以被回收</p>
+<ul>
+<li><p>优点：简单高效</p>
+</li>
+<li><p>缺点：循环引用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    MyObject A = <span class="keyword">new</span> MyObject();</span><br><span class="line">    MyObject B = <span class="keyword">new</span> MyObject();</span><br><span class="line">    A.instance = B;</span><br><span class="line">    B.instance = A;</span><br><span class="line">    A = <span class="keyword">null</span>;</span><br><span class="line">    B = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用引用计数算法不会被回收</span></span><br><span class="line">    System.gc();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>可达性分析算法</p>
+<p><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2lofww1cij20ry0bamy6.jpg" alt="pic"></p>
+<p>以一系列称为 <code>GC Root</code> 的对象为起始点向下搜索，搜索所走过的路径称为“引用链”，没有任何引用链相连的对象可以被回收</p>
+<p>可作为 <code>GC Root</code> 的对象：</p>
+<ul>
+<li>Java 虚拟机栈的局部变量表中引用的对象</li>
+<li>本地方法栈中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中类常量引用的对象</li>
+</ul>
+<p>引用（引用强度依次递减）</p>
+<ul>
+<li>强引用<br>存在强引用，垃圾回收器不会回收</li>
+<li>软引用<br>有用但并非必要的对象，当系统即将内存溢出时，将会把这些对象列入回收范围进行二次回收</li>
+<li>弱引用<br>存活到下次垃圾回收之前</li>
+<li>虚引用<br>为一个对象设置虚引用的目的是在这个对象被回收时会收到系统通知，虚引用不会对对象生命周期构成影响</li>
+</ul>
+</li>
+</ul>
+<h4 id="方法区回收"><a href="#方法区回收" class="headerlink" title="方法区回收"></a>方法区回收</h4><ul>
+<li><p>常量回收</p>
+<p>和堆中对象类似，没有被引用可被回收</p>
+</li>
+<li><p>类的卸载条件很多，需要满足以下三个条件，并且满足了条件也不一定会被卸载：</p>
+<ul>
+<li>该类所有的实例都已经被回收，此时堆中不存在该类的任何实例</li>
+<li>加载该类的 ClassLoader 已经被回收</li>
+<li>该类对应的 Class 对象没有在任何地方被引用，也就无法在任何地方通过反射访问该类方法</li>
+</ul>
+</li>
+</ul>
+<p>在 Hotspot 虚拟机中使用永久代实现方法区，由于方法区的回收率特别低。在 jdk1.7 后将常量池和静态变量存储到 Java 堆中，jdk1.8 后完全移除方法区，并将类信息存储于元空间中，元空间在本地内存中</p>
+<h3 id="垃圾收集算法（方法论）"><a href="#垃圾收集算法（方法论）" class="headerlink" title="垃圾收集算法（方法论）"></a>垃圾收集算法（方法论）</h3><p><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2lognuym9j20yt0cbwg4.jpg" alt="pic"></p>
+<p>新生代：复制</p>
+<p>老年代：标记-清除、标记-整理</p>
+<h3 id="垃圾收集器（具体实现）"><a href="#垃圾收集器（具体实现）" class="headerlink" title="垃圾收集器（具体实现）"></a>垃圾收集器（具体实现）</h3><p><img data-src="https://i.loli.net/2019/04/26/5cc26e4932e1f.jpg" alt="pic"></p>
+<ul>
+<li><p>串行：垃圾回收和程序运行代码串行</p>
+</li>
+<li><p>并行：垃圾回收和程序代码并发执行</p>
+</li>
+<li><p>Serial 收集器<br>复制算法；串行、单线程；适用场景：运行在<code>client 模式下的虚拟机</code></p>
+</li>
+<li><p>ParNew 收集器</p>
+<p>复制算法；串行、多线程；适用场景：多核CPU</p>
+</li>
+<li><p>Parallel Scavenge 收集器</p>
+<p>复制算法；串行、吞吐量优先、自适应调节策略；适用场景：注重高吞吐量</p>
+</li>
+<li><p>Serial Old 收集器<br>串行，标记-整理算法</p>
+</li>
+<li><p>Parallel Old 收集器<br>c串行，标记-整理算法</p>
+</li>
+<li><p>CMS 收集器</p>
+<ul>
+<li>初始标记</li>
+<li>并发标记</li>
+<li>重新标记</li>
+<li>并发清除</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><a href="https://segmentfault.com/a/1190000004707217" target="_blank" rel="noopener">CMS为什么采用标记-清除算法</a></p>
+</blockquote>
+<p>  标记-清除算法；并行，以获取最短回收停顿时间为目标；适用场景：注重响应速度</p>
+<ul>
+<li><p>G1 收集器：并行</p>
+<ul>
+<li>初始标记</li>
+<li>并发标记</li>
+<li>最终标记</li>
+<li>筛选回收</li>
+</ul>
+<blockquote>
+<p><a href="https://segmentfault.com/a/1190000017166003" target="_blank" rel="noopener">G1 垃圾收集器介绍</a></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="垃圾收集器使用场景"><a href="#垃圾收集器使用场景" class="headerlink" title="垃圾收集器使用场景"></a>垃圾收集器使用场景</h3><ul>
+<li><strong>Serial</strong>：适用于 Client 模式</li>
+<li><strong>ParNew</strong>：适用于 Server 模式，与 CMS 搭配</li>
+<li><strong>Parallel Scavenge</strong>：适用于后台计算，不需要太多交互的批处理系统</li>
+<li><strong>Serial Old</strong>：适用于 Client 模式</li>
+<li><strong>Parallel Old</strong>：适用于 Server 模式</li>
+<li><strong>CMS</strong>：以最短垃圾回收时间为目的，适用于响应速度要求高的交互式系统</li>
+<li><strong>G1</strong>：适用于服务端，在多 CPU 和大内存的场景下有很好的性能</li>
+</ul>
+<h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h3><ul>
+<li><p><code>minor GC</code> &amp; <code>full GC</code></p>
+<ul>
+<li>minor GC ：回收新生代</li>
+<li>major GC：回收老年代</li>
+</ul>
+</li>
+<li><p>full GC：回收老年代，伴随着新生代的回收</p>
+</li>
+<li><p>内存分配</p>
+<ul>
+<li>对象优先分配在 Eden 区</li>
+<li>大对象直接进入老年代</li>
+<li>长期存活对象进入老年代：为对象设置年龄</li>
+<li>动态对象年龄判断</li>
+<li>空间分配担保</li>
+</ul>
+</li>
+</ul>
+<p><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g2lohfiw34j20k70bjt9j.jpg" alt="pic"></p>
+<h3 id="对象分配位置"><a href="#对象分配位置" class="headerlink" title="对象分配位置"></a>对象分配位置</h3><ul>
+<li>堆</li>
+<li>Java 虚拟机栈<ul>
+<li>逃逸分析：判断对象的作用域是否有可能逃逸出函数体</li>
+<li>标量替换：</li>
+</ul>
+</li>
+<li>Thread Local Allocation Buffer (TLAB)</li>
+</ul>
+<h3 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><ul>
+<li>句柄</li>
+<li>直接指针：<code>hotspot</code>使用直接指针</li>
+</ul>
+<h2 id="class-文件结构"><a href="#class-文件结构" class="headerlink" title="class 文件结构"></a>class 文件结构</h2><p><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2loi3xmchj20sc0z5tcm.jpg" alt="class脑图"></p>
+<h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><h3 id="类初始化情况"><a href="#类初始化情况" class="headerlink" title="类初始化情况"></a>类初始化情况</h3><blockquote>
+<p><a href="https://blog.csdn.net/lixin88/article/details/72590713" target="_blank" rel="noopener">类初始化</a></p>
+</blockquote>
+<ol>
+<li>遇到<code>new</code> <code>getstatic</code> <code>putstatic</code> <code>invokestatic</code> 这四个指令时，如果未初始化会触发初始化<ul>
+<li>编译期常量不依赖类，不会触发类的初始化；运行期常量依赖类，会触发类的初始化</li>
+</ul>
+</li>
+<li>使用 Java 反射机制对类反射调用时，如果未初始化会触发初始化</li>
+<li>当初始化一个类时，父类未初始化会触发初始化</li>
+<li>虚拟机启动需要用户指定一个要执行的主类，会触发主类初始化</li>
+<li>jdk 1.7 ，使用<code>java.lang.invoke.MethodHandle</code>实例解析方法句柄所对应的类未初始化会触发初始化</li>
+</ol>
+<h3 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h3><blockquote>
+<p><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E8%99%9A%E6%8B%9F%E6%9C%BA?id=%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B" target="_blank" rel="noopener">类加载过程</a></p>
+</blockquote>
+<ul>
+<li><p>加载：通过类加载器 ClassLoader 进行加载</p>
+<ul>
+<li>通过类的完全限定名称获取定义该类的二进制字节流</li>
+<li>将该字节流表示的静态存储结构转换为方法区的运行时存储结构</li>
+<li>在内存中生成一个代表该类的 Class 对象，作为方法区中该类各种数据的访问入口</li>
+</ul>
+<p>加载阶段完成后二进制字节流就按照虚拟机所需的格式存储在方区去中</p>
+</li>
+<li><p>验证</p>
+<p>确保 Class 文件的字节流中包含的信息符合当前虚拟机的要求</p>
+<ul>
+<li>文件格式验证</li>
+<li>元数据验证</li>
+<li>字节码验证</li>
+<li>符号引用验证</li>
+</ul>
+</li>
+<li><p>准备：为类变量分配内存并设计系统初始值</p>
+</li>
+<li><p>解析</p>
+</li>
+<li><p>初始化</p>
+</li>
+</ul>
+<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><p>四种类加载器</p>
+<ul>
+<li><p><code>Bootstrap</code>类加载器</p>
+<p>加载核心库， <code>rt.jar</code> 中的JDK类文件</p>
+</li>
+<li><p><code>Extension</code> 类加载器<br>加载扩展库，从 <code>jre/lib/ext</code> 目录下或者 <code>java.ext.dirs</code> 系统属性定义的目录下加载类</p>
+</li>
+<li><p><code>System</code> 类加载器</p>
+<p>从 <code>classpath</code> 环境变量中加载某些应用相关的类</p>
+</li>
+<li><p>Custom 类加载器</p>
+<p>自定义的类加载器</p>
+</li>
+</ul>
+<p>三个机制：</p>
+<ul>
+<li>委托机制<br><code>System</code> -&gt; <code>Extension</code> -&gt; <code>Bootstrap</code>，保证 java 核心库的安全性</li>
+<li>可见性<br>子类加载器可以看到父类加载器加载的类，而反之则不行</li>
+<li>单一性<br>父加载器加载过的类不能被子加载器加载第二次</li>
+</ul>
+<h3 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h3><p>自定义类加载器的核心在于对字节码文件的获取。最好不要重写loadClass方法，因为这样容易破坏双亲委托模式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileSystemClassLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String rootDir;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileSystemClassLoader</span><span class="params">(String rootDir)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rootDir = rootDir;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] classData = getClassData(name);</span><br><span class="line">        <span class="keyword">if</span> (classData == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> defineClass(name, classData, <span class="number">0</span>, classData.length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] getClassData(String className) &#123;</span><br><span class="line">        String path = classNameToPath(className);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            InputStream ins = <span class="keyword">new</span> FileInputStream(path);</span><br><span class="line">            ByteArrayOutputStream baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            <span class="keyword">int</span> bufferSize = <span class="number">4096</span>;</span><br><span class="line">            <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[bufferSize];</span><br><span class="line">            <span class="keyword">int</span> bytesNumRead;</span><br><span class="line">            <span class="keyword">while</span> ((bytesNumRead = ins.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                baos.write(buffer, <span class="number">0</span>, bytesNumRead);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> baos.toByteArray();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">classNameToPath</span><span class="params">(String className)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> rootDir + File.separatorChar</span><br><span class="line">                + className.replace(<span class="string">'.'</span>, File.separatorChar) + <span class="string">".class"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="java-内存模型与线程"><a href="#java-内存模型与线程" class="headerlink" title="java 内存模型与线程"></a>java 内存模型与线程</h2><h3 id="硬件并发"><a href="#硬件并发" class="headerlink" title="硬件并发"></a>硬件并发</h3><p><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g2loivht55j20ig09qjrp.jpg" alt="pic"></p>
+<h3 id="java-内存模型"><a href="#java-内存模型" class="headerlink" title="java 内存模型"></a>java 内存模型</h3><p>java 内存模型试图屏蔽硬件和操作系统的内存访问差异，以实现 java 在各个平台都有相同的内存访问效果。java 内存模型的主要目标是定义程序中变量的访问规则，这里的变量指的是堆和方法区中的变量，而不包括 java 虚拟机栈和本地方法栈中的局部变量。</p>
+<p><img data-src="https://i.loli.net/2019/04/26/5cc26dd160f66.png" alt="pic"></p>
+<h3 id="内存间交互操作"><a href="#内存间交互操作" class="headerlink" title="内存间交互操作"></a>内存间交互操作</h3><p>主内存和工作内存具体的交互协议，Java 内存模型定义了8个基本操作：</p>
+<p><img data-src="https://i.loli.net/2019/04/26/5cc26dff2a41a.png" alt="pic"></p>
+<ul>
+<li>lock：作用于主内存，把变量标记为一个线程独占</li>
+<li>unlock：作用于主内存，把处于锁定状态的变量释放</li>
+</ul>
+<h4 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h4><p>Java 虚拟机提供的轻量级同步机制，被定义为 <code>volatile</code> 的变量具有两个特性</p>
+<ul>
+<li><p>可见性：保证此变量对所有线程可见，当其中一个线程修改该变量时，其他线程能够立刻得知；可见性不能保证并发安全</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executor;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyVolatile</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> val = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">incr</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        val++;  <span class="comment">// 不具备原子性</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getVal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">        CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(<span class="number">20</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">            executorService.execute(()-&gt;&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">1000</span>; j++) &#123;</span><br><span class="line">                    incr();</span><br><span class="line">                &#125;</span><br><span class="line">                countDownLatch.countDown();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        countDownLatch.await();</span><br><span class="line">        executorService.shutdown();</span><br><span class="line">        System.out.println(getVal());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>volatile</code> 具有可见性，但无法保证代码执行的原子性。此例中，自增操作由4个字节码指令构成：<code>getstatic</code>、<code>iconst_1</code>、<code>iadd</code>、<code>putstatic</code>。 <code>volatile</code> 可以保证<code>getstatic</code>时是正确的，但是无法保证入栈操作和累加操作时，<code>val</code>值是最新的。</p>
+</li>
+<li><p>禁止指令重排序优化</p>
+</li>
+</ul>
+<h3 id="内存模型三大特性"><a href="#内存模型三大特性" class="headerlink" title="内存模型三大特性"></a>内存模型三大特性</h3><ul>
+<li>原子性</li>
+<li>可见性</li>
+<li>有序性</li>
+</ul>
+<h3 id="先行发生原则"><a href="#先行发生原则" class="headerlink" title="先行发生原则"></a>先行发生原则</h3><blockquote>
+<p><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%B9%B6%E5%8F%91?id=%E5%85%88%E8%A1%8C%E5%8F%91%E7%94%9F%E5%8E%9F%E5%88%99" target="_blank" rel="noopener">先行发生原则</a></p>
+</blockquote>
+<h2 id="线程安全与锁优化"><a href="#线程安全与锁优化" class="headerlink" title="线程安全与锁优化"></a>线程安全与锁优化</h2><p>当多个线程同时访问共享对象时，取得这个对象的结果始终是正确的</p>
+<h3 id="Java-线程安全"><a href="#Java-线程安全" class="headerlink" title="Java 线程安全"></a>Java 线程安全</h3><p>在 Java 语言中，操作共享数据可以分为以下5类：</p>
+<ul>
+<li><p>不可变<br>不可变的对象一定是线程安全的，<code>final</code>、<code>String</code></p>
+</li>
+<li><p>绝对线程安全<br>不管调用环境如何，调用者都不需要额外的同步措施</p>
+</li>
+<li><p>相对线程安全</p>
+<p>对象的单独操作是线程安全的</p>
+</li>
+<li><p>线程兼容<br>对象本身不是线程安全的，需要调用者使用正确的同步手段来保证线程安全</p>
+</li>
+<li><p>线程对立</p>
+<p>无论调用者是否采取同步手段，都无法保证线程安全</p>
+</li>
+</ul>
+<h3 id="线程安全的实现方法"><a href="#线程安全的实现方法" class="headerlink" title="线程安全的实现方法"></a>线程安全的实现方法</h3><p>锁类型</p>
+<ul>
+<li>可重入锁：当线程执行某方法获得一个锁后，再次尝试获得该锁不会被阻塞</li>
+<li>不可重入锁：当线程执行某方法获得一个锁后，再次尝试获得该锁会被阻塞</li>
+<li>可中断锁：当线程在等待锁的过程中，可以中断转而去执行其他的任务</li>
+<li>公平锁：多个线程在等待同一个锁时，必须按照申请锁的时间顺序来依次获得锁</li>
+</ul>
+<p>方法：</p>
+<ul>
+<li>互斥同步<ul>
+<li>synchronized：可重入锁，非公平锁，需要指定一个引用参数作为锁对象。若不指定参数，实例方法的参数是<code>this</code>，静态方法的参数是<code>Class</code></li>
+<li>ReentrantLock：可重入锁，默认非公平锁。高级特性：等待可中断、公平锁、绑定多个条件</li>
+</ul>
+</li>
+<li>非阻塞同步<ul>
+<li>CAS：处理器指令，是原子操作。需要3个操作数：内存地址、旧的预期值、新值。存在ABA问题，通过版本号解决ABA问题</li>
+</ul>
+</li>
+<li>无同步方案<ul>
+<li>线程私有变量无需同步</li>
+<li>线程本地存储</li>
+</ul>
+</li>
+</ul>
+<h2 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h2><ul>
+<li><p>自旋锁：为了让线程等待，只需让线程执行一个忙循环（自旋）</p>
+</li>
+<li><p>锁消除：虚拟机即时编译器在运行时，对一些在代码上要求同步，但是被检测到不可能存在共享数据竞争的锁进行消除</p>
+</li>
+<li><p>锁粗化<br>如果一系列的连续操作都对同一个对象反复加锁和解锁，频繁的加锁操作就会导致性能损耗。锁粗化通过扩大锁作用域的方式将多个锁转化成一个锁</p>
+</li>
+<li><p>轻量级锁<br>在无竞争的情况下，使用CAS操作去消除同步使用的互斥量</p>
+</li>
+<li><p>偏向锁</p>
+<p>在无竞争的情况下，去掉同步操作</p>
+</li>
+</ul>
+<h3 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁 / 轻量级锁 / 重量级锁"></a>偏向锁 / 轻量级锁 / 重量级锁</h3><p>锁的状态：</p>
+<ul>
+<li>无锁状态</li>
+<li>偏向锁状态</li>
+<li>轻量级锁状态</li>
+<li>重量级锁状态</li>
+</ul>
+<p>锁的状态是通过对象监视器在对象头中的字段来表明的。四种状态会随着竞争的情况逐渐升级，而且是不可逆的过程，即不可降级。<strong>这四种状态都不是Java语言中的锁</strong>，而是Jvm为了提高锁的获取与释放效率而做的优化(<strong>使用synchronized时</strong>)</p>
+<p><strong>偏向锁</strong>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。降低获取锁的代价</p>
+<p><strong>轻量级</strong>轻量级锁是指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，不会阻塞，提高性能</p>
+<p><strong>重量级锁</strong>重量级锁是指当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁。重量级锁会让其他申请的线程进入阻塞，性能降低</p>
+<h2 id="jvm-参数设置"><a href="#jvm-参数设置" class="headerlink" title="jvm 参数设置"></a>jvm 参数设置</h2><p><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2rivyd4fcj20e007y0t2.jpg" alt="pic"></p>
+<ul>
+<li><code>-Xms10m</code>：jvm 堆初始化内存</li>
+<li><code>-Xmx10m</code>：jvm 堆最大内存</li>
+<li><code>-Xmn10m</code>：jvm 新生代初始化内存</li>
+<li><code>-XX:NewSize</code>：jvm 新生代初始化内存</li>
+<li><code>-XX:MaxNewSize</code>：jvm 新生代最大内存</li>
+<li><code>-XX:PermSize=16M</code> ：永久代初始化内存</li>
+<li><code>-XX:MaxPermSize=64M</code>：永久代最大内存</li>
+<li><code>-XX:Xss=128K</code>：栈内存大小</li>
+<li><code>-XX:SurvivorRatio</code>：设置Eden和其中一个Survivor的比值</li>
+<li><code>-XX:InitialTenuringThreshol</code>：晋升到老年代年龄的最小值</li>
+<li><code>-XX:MaxTenuringThreshold</code>：晋升到老年代年龄的最大值</li>
+</ul>
+<h2 id="jvm-调优"><a href="#jvm-调优" class="headerlink" title="jvm 调优"></a>jvm 调优</h2><p>jvm 调优并不是一成不变的，而是根据不同的系统来进行分析。可以在运行系统前进行初始化调优，也可以根据运行情况来监测系统从而发现问题解决问题</p>
+<h3 id="jvm-监测"><a href="#jvm-监测" class="headerlink" title="jvm 监测"></a>jvm 监测</h3><p>可以从 CPU 、内存和磁盘等角度对程序进行分析</p>
+<ul>
+<li>CPU<ul>
+<li><code>top</code> ：找到占用 CPU 高的进程</li>
+<li><code>top -p pid -H</code> ：找到占用 CPU 高的线程</li>
+<li><code>jstack -l pid &gt;temp.log</code>：打印堆栈日志</li>
+</ul>
+</li>
+<li>jvm 内存<ul>
+<li><code>jmap -heap pid</code>：查看堆的分布情况</li>
+<li><code>jstat -gcuitl pid 2000 10</code>：每隔 2s 输出 GC 次数，输出 10 次</li>
+</ul>
+</li>
+</ul>
+<h3 id="高性能硬件程序部署策略"><a href="#高性能硬件程序部署策略" class="headerlink" title="高性能硬件程序部署策略"></a>高性能硬件程序部署策略</h3><p>对于 64 位大内存的操作系统来说，如果想充分利用硬件资源，可以有两种部署方式：</p>
+<ul>
+<li>通过 64 位 JDK 使用大内存：如果堆内存分配太大，需要考虑 <code>Full GC</code> 的频率</li>
+<li>使用若干 32 位虚拟机部署虚拟集群</li>
+</ul>
+<h3 id="堆外内存溢出"><a href="#堆外内存溢出" class="headerlink" title="堆外内存溢出"></a>堆外内存溢出</h3><ul>
+<li>栈溢出：使用 <code>-Xss</code> 调整大小</li>
+<li>直接内存溢出：使用 <code>-XX:MaxDirectMemorySize</code> 调整大小</li>
+</ul>
+<h3 id="远程调用"><a href="#远程调用" class="headerlink" title="远程调用"></a>远程调用</h3><p>对于服务处理时间不均等，一快一慢的远程调用，使用异步的方式进行处理，比如消息队列</p>
+<h3 id="内存调优"><a href="#内存调优" class="headerlink" title="内存调优"></a>内存调优</h3><ul>
+<li>堆大小的调优：一般来说堆越大越好。可以降低 GC 的频率，但会提高单次 GC 的时间。可以增加堆内存并设置定时任务，在深夜触发 GC</li>
+<li>新生代调优：增加新生代的大小会减少 Minor GC 的频率，但这并不意味着会增加单次 Minor GC 的时间。新生代调优的目的是尽可能的待在新生代，减少晋升老年代的对象。但长期存活的对象在新生代频繁复制也会造成不必要的开销，所以需要权衡新生代晋升老年代的年龄的阀值</li>
+<li>老年代调优：尽可能的调优新生代；对 CMS 垃圾回收器手动进行 Full GC</li>
+</ul>
+<h2 id="dump-文件"><a href="#dump-文件" class="headerlink" title="dump 文件"></a>dump 文件</h2><p>获取进程 pid：<code>ps -aux | grep java</code></p>
+<p>获取线程ID：<code>top -p pid -H</code></p>
+<p>获取 dump</p>
+<ul>
+<li><code>jmap</code>：Java 自带工具，<code>jmap -heap pid</code></li>
+<li><code>kill</code>：Linux 命令，<code>kill -3 pid</code></li>
+<li><code>jstack</code>：sun JDK 工具，<code>jstack pid</code></li>
+</ul>
+<h2 id="文献"><a href="#文献" class="headerlink" title="文献"></a>文献</h2><ol>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3732300.html" target="_blank" rel="noopener">java体系结构-总体介绍</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3728748.html" target="_blank" rel="noopener">java体系结构-类加载器（一）</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3728744.html" target="_blank" rel="noopener">JVM体系结构-类加载器（二）</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3728737.html" target="_blank" rel="noopener">java体系结构-方法区（一）</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3726574.html" target="_blank" rel="noopener">JVM体系结构-方法区（二）</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3724459.html" target="_blank" rel="noopener">JVM体系结构-本地方法栈</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3724473.html" target="_blank" rel="noopener">JVM体系结构-堆（一）</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3726563.html" target="_blank" rel="noopener">JVM体系结构-堆（二）</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/duanxz/p/3482366.html" target="_blank" rel="noopener">JVM参数汇总</a></p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Apathy WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/JVM/" rel="tag"># JVM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/17/00013/" rel="prev" title="计算机网络-基础知识">
+      <i class="fa fa-chevron-left"></i> 计算机网络-基础知识
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/13/00015/" rel="next" title="Redis">
+      Redis <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#自动内存管理机制"><span class="nav-number">1.</span> <span class="nav-text">自动内存管理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区域"><span class="nav-number">1.1.</span> <span class="nav-text">运行时数据区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾回收机制"><span class="nav-number">1.2.</span> <span class="nav-text">垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#堆对象回收"><span class="nav-number">1.2.1.</span> <span class="nav-text">堆对象回收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法区回收"><span class="nav-number">1.2.2.</span> <span class="nav-text">方法区回收</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾收集算法（方法论）"><span class="nav-number">1.3.</span> <span class="nav-text">垃圾收集算法（方法论）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾收集器（具体实现）"><span class="nav-number">1.4.</span> <span class="nav-text">垃圾收集器（具体实现）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾收集器使用场景"><span class="nav-number">1.5.</span> <span class="nav-text">垃圾收集器使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配"><span class="nav-number">1.6.</span> <span class="nav-text">内存分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象分配位置"><span class="nav-number">1.7.</span> <span class="nav-text">对象分配位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的访问定位"><span class="nav-number">1.8.</span> <span class="nav-text">对象的访问定位</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class-文件结构"><span class="nav-number">2.</span> <span class="nav-text">class 文件结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载机制"><span class="nav-number">3.</span> <span class="nav-text">类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类初始化情况"><span class="nav-number">3.1.</span> <span class="nav-text">类初始化情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载过程"><span class="nav-number">3.2.</span> <span class="nav-text">类加载过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载器"><span class="nav-number">3.3.</span> <span class="nav-text">类加载器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义类加载器"><span class="nav-number">3.4.</span> <span class="nav-text">自定义类加载器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-内存模型与线程"><span class="nav-number">4.</span> <span class="nav-text">java 内存模型与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件并发"><span class="nav-number">4.1.</span> <span class="nav-text">硬件并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java-内存模型"><span class="nav-number">4.2.</span> <span class="nav-text">java 内存模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存间交互操作"><span class="nav-number">4.3.</span> <span class="nav-text">内存间交互操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile"><span class="nav-number">4.3.1.</span> <span class="nav-text">volatile</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存模型三大特性"><span class="nav-number">4.4.</span> <span class="nav-text">内存模型三大特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先行发生原则"><span class="nav-number">4.5.</span> <span class="nav-text">先行发生原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全与锁优化"><span class="nav-number">5.</span> <span class="nav-text">线程安全与锁优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-线程安全"><span class="nav-number">5.1.</span> <span class="nav-text">Java 线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程安全的实现方法"><span class="nav-number">5.2.</span> <span class="nav-text">线程安全的实现方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁优化"><span class="nav-number">6.</span> <span class="nav-text">锁优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#偏向锁-轻量级锁-重量级锁"><span class="nav-number">6.1.</span> <span class="nav-text">偏向锁 &#x2F; 轻量级锁 &#x2F; 重量级锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jvm-参数设置"><span class="nav-number">7.</span> <span class="nav-text">jvm 参数设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jvm-调优"><span class="nav-number">8.</span> <span class="nav-text">jvm 调优</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jvm-监测"><span class="nav-number">8.1.</span> <span class="nav-text">jvm 监测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高性能硬件程序部署策略"><span class="nav-number">8.2.</span> <span class="nav-text">高性能硬件程序部署策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆外内存溢出"><span class="nav-number">8.3.</span> <span class="nav-text">堆外内存溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程调用"><span class="nav-number">8.4.</span> <span class="nav-text">远程调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存调优"><span class="nav-number">8.5.</span> <span class="nav-text">内存调优</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dump-文件"><span class="nav-number">9.</span> <span class="nav-text">dump 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文献"><span class="nav-number">10.</span> <span class="nav-text">文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Apathy"
+      src="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+  <p class="site-author-name" itemprop="name">Apathy</p>
+  <div class="site-description" itemprop="description">没有肆意生长的野心<br>哪来梦想的星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dzapathy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dzapathy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>   
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

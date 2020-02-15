@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<meta name="referrer" content="no-referrer"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dzapathy.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Machine Theory of Mind">
+<meta property="og:url" content="https://dzapathy.github.io/2019/02/14/00006/index.html">
+<meta property="og:site_name" content="Apathy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/15/QvS4y5xorTMmRHN.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g06akwqdgrj20hr0de755.jpg">
+<meta property="article:published_time" content="2019-02-14T13:46:15.000Z">
+<meta property="article:modified_time" content="2020-02-15T11:37:46.345Z">
+<meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Deep Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/15/QvS4y5xorTMmRHN.jpg">
+
+<link rel="canonical" href="https://dzapathy.github.io/2019/02/14/00006/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Machine Theory of Mind | Apathy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apathy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dzapathy.github.io/2019/02/14/00006/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+      <meta itemprop="name" content="Apathy">
+      <meta itemprop="description" content="没有肆意生长的野心<br>哪来梦想的星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apathy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Machine Theory of Mind
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-02-14 21:46:15" itemprop="dateCreated datePublished" datetime="2019-02-14T21:46:15+08:00">2019-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-15 19:37:46" itemprop="dateModified" datetime="2020-02-15T19:37:46+08:00">2020-02-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://i.loli.net/2020/02/15/QvS4y5xorTMmRHN.jpg" alt="ReconciliationDay_ZH-CN7914130812_1920x1080.jpg"></p>
+<a id="more"></a>
+
+<blockquote>
+<p>DeepMind 近日发表的最新研究提出 “机器心智理论”（Machine Theory of Mind），启发自心理学中的 “心智理论”，研究者构建了一个心智理论的神经网络ToMnet，并通过一系列实验证明它具有心智能力。这是开发多智能体AI系统，构建机器-人机交互的中介技术，以及推进可解释AI发展的重要一步。</p>
+</blockquote>
+<h2 id="Machine-Theory-of-Mind"><a href="#Machine-Theory-of-Mind" class="headerlink" title="Machine Theory of Mind"></a>Machine Theory of Mind</h2><p>目前深度学习和深度强化学习取得了飞跃的进展，但是神经网络还是一个黑盒，我们对其能够取得这样效果的原因并不了解。即使我们能够知道网络各个层的权重，也很难弄清楚它们到底是怎么运作的，以及它们可能出错的地方和潜在的风险。随着AI越来越多地进入人类世界，理解神经网络的需求也越来越大。</p>
+<p>暂且不考虑神经网络，首先我们来看一下人类是怎样互相理解的。作为人类，我们每天都会和其他人交流，我们可以预测陌生人未来的行为；可以规划与他人的互动；可以建立高效的沟通。虽然我们并不了解其他人的神经元是怎么活动的，并不了解别人的皮质层是怎么连接的，也并不了解其他人的海马体是怎么运作的，但是我们能够很好的理解他人的行为、揣测他人的想法。这就是<strong>心智理论</strong>（Theory of Mind）。心智理论是指个体能够理解自己与他人的心理状态（包括情绪意图、期望、思考和信念等）并藉此信息预测和解释他人行为的一种能力。</p>
+<p>对其他智能体的 “理解” 有一个显著特点是，智能体对其他智能体的理解不会去思考它真正的底层结构。DeepMind研究人员从人的心智理论中获得灵感，试图构建一个能够对其他智能体进行建模的系统，将其描述为 ——<strong>机器心智理论</strong>，关注点是<strong>观察者</strong>如何使用有限的数据自主地为其他智能体建模。</p>
+<h2 id="Meta-Learning"><a href="#Meta-Learning" class="headerlink" title="Meta Learning"></a>Meta Learning</h2><p>研究者构建了一个心智理论的神经网络ToMnet，是一种元学习模型。<strong>元学习</strong>（Meta Learning）也叫做学会学习（Learning to Learn），其研究重心是使机器拥有学习的能力。元学习是实现快速学习的方法之一，已经成为继强化学习（Reinforcement Learning）之后又一个重要的研究分支。人工智能研究呈现出如下趋势：</p>
+<blockquote>
+<p>Artificial Intelligence –&gt; Machine Learning –&gt; Deep Learning –&gt; Deep Reinforcement Learning –&gt; Deep Meta Learning</p>
+</blockquote>
+<p>之所以会这样发展完全取决于当前人工智能的发展。在Machine Learning时代，复杂一点的分类问题效果就不好了，Deep Learning的出现基本上解决了一对一映射的问题，比如说图像分类，一个输入对一个输出，因此出现了AlexNet这样的里程碑式的成果。但如果输出对下一个输入还有影响呢？也就是序列决策问题（sequential decision making）单一的深度学习就解决不了了，这时就进一步衍生出了深度强化学习（Deep Reinforcement Learning）。有了深度强化学习，序列决策初步取得成效，出现了AlphaGo这样的里程碑式的成果。但是新的问题又出来了，深度强化学习太依赖于巨量的训练，并且需要精确的奖励（Reward），对于现实世界的很多问题并没有好的奖励，也没办法无限量训练，这时怎么办？这就需要元学习，能够充分的利用以往的知识经验来指导新任务的学习，元学习成为目前一个新的攻克方向。</p>
+<p>元学习是实现快速学习的方法之一。为什么人类能够快速学习，因为我们可以<strong>利用以往的经验</strong>来学习！ 所以，要让深度学习能够快速学习，就要研究如何让神经网络能够很好的利用以往的知识，使得神经网络能够根据新的任务调整自己。</p>
+<p>元学习的实现方式多种多样，比如基于记忆Memory的方法 、基于预测梯度的方法 、利用Attention注意力机制的方法等等（参考<a href="https://www.leiphone.com/news/201708/tSXB6oo1mdnbKvkd.html" target="_blank" rel="noopener">元学习：实现通用人工智能的关键</a>）</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>DeepMind试图建立一个模拟其他智能体的模型，设计了一个心智理论的神经网络（Theory of Mind neural network）——ToMnet。该网络相当于一个代理模型，学习怎样通过元学习从头推理其他智能体。通过这个过程，ToMnet 获得了一个关于智能体行为的强大先验模型，以及仅使用少量行为观察就能更丰富地预测智能体的特征和心理状态的能力。研究者将 ToMnet 应用了到简单的格子环境智能体，并且通过了经典的 ToM 任务测试。研究者认为这个系统——智能体自主地学习如何模拟其他智能体——是开发多智能体 AI 系统，构建人机交互的中介技术，以及促进可解释 AI 进展的重要一步。这项工作还有许多潜在的应用，比如改进复杂多智能体任务的决策、数据校准等。</p>
+<p>DeepMind认为，构建心智理论的挑战本质上在于元学习问题。在测试时，我们希望遇到一个以前没见过的智能体，并且它们已经对自身的行为方式有一个强大且丰富的先验知识（训练好的智能体）。此外，在我们看到该智能体在现实中的行动时，我们希望能收集它们的隐藏特征（构成后验知识），这有助于我们预测它们未来的行为。</p>
+<p>为此，DeepMind制定了一个元学习任务。构建了一个<strong>观察者</strong>（observer），它在每一轮（episode）都可以看到 智能体一组新的行为。观察者的目标是<strong>预测智能体未来的行为</strong>。在训练过程中，观察者应该从有限的数据中快速形成有关新智能体的预测。这种关于新智能体的 “学习” 就是我们所说的元学习。通过这个过程，观察者还应该学习到智能体行为的有效先验，这些知识隐含地捕捉了训练群体中智能体之间的共性。</p>
+<p>DeepMind 引入了两个概念来描述该观察者网络及其功能角色。区分两个一般心智理论，即网络的预学习权重与特定智能体心智理论。在网络的预学习权重中，它包含了训练集中所有智能体一般行为的预测。而在特定智能体心智理论中，从单个智能体在测试时的观察形成”agent embedding“，它包含了使得智能体的特性和精神状态区别于其它智能体的内容。这些对应于智能体行为的先验知识和后验知识。</p>
+<h2 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h2><h3 id="Tasks"><a href="#Tasks" class="headerlink" title="Tasks"></a>Tasks</h3><p>ToMnet属于强化学习/元学习的模型，处理的任务是一个部分可观察马尔可夫决策过程族$M=U_jMj$。马尔可夫决策过程（MDPs）是强化学习的数学基础，部分可观察马尔可夫决策过程（POMDPs）是马尔可夫决策过程的扩展。</p>
+<ol>
+<li><p>MDPs</p>
+<p> 首先介绍一下马尔可夫决策过程，一个马尔可夫决策过程由一个五元组构成：<br> $$<br> &lt;S,A,P,R,\gamma&gt;<br> $$</p>
+<ul>
+<li><p>$S$表示状态集合</p>
+</li>
+<li><p>$A$表示动作集合</p>
+</li>
+<li><p>$P$表示状态转移函数<br>$$<br>P_{ss^{‘}}^a=P[S_{t+1}=s^{‘}|S_t=s,A_t=a]<br>$$<br>$P$的所有值构成状态转移矩阵</p>
+</li>
+<li><p>$R$表示奖励函数，$R(s,a)$描述了在状态$s$做动作$a$的奖励<br>$$<br>R(s,a)=E[R_{t+1}|S_t=s,A_t=a]<br>$$</p>
+</li>
+<li><p>$\gamma$表示衰减因子，$\gamma \in [0,1]$</p>
+<p>在强化学习中，从初始状态$S_1$到终止状态$S_T$的序列过程，称为一个片段（episode）：$S_1,…,S_T$</p>
+<p>在MDPs问题中，值函数分为状态值函数（V函数）:<br>$$<br>v_{π}(s)=E_{π}[G_t|S_t=s]<br>$$<br>和状态动作值函数（Q函数）:<br>$$<br>q_{π}(s,a)=E_{π}[G_t|S_t=s,A_t=a]<br>$$<br>其中，$π$表示策略，在MDPs中，一个策略$π$是在给定状态下的动作的概率分布：<br>$$<br>π(a|s)=P[A_t=a|S_t=s]<br>$$<br>$G_t=\sum <em>{k=0}^{T-t-1}\gamma ^k R</em>{t+k+1}$是回报值，对于一个强化学习问题，我们最终的目标是最大化回报值的期望，即最大化值函数，值函数使用贝尔曼期望方程求解。</p>
+</li>
+</ul>
+</li>
+<li><p>POMDPs</p>
+<p> POMDPs由七元组组成：<br> $$<br> &lt;S,A,P,R,\Omega,w,\gamma&gt;<br> $$</p>
+<ul>
+<li><p>$\Omega$ 表示观察结果集，观察结果集不等于状态集合$\Omega_t \neq S_t$，环境数据</p>
+</li>
+<li><p>$w$表示条件观测函数，就是系统在观察到环境$o$时，有多大概率确定自己处于状态$s$</p>
+<p>和MDPs问题不同的是，POMDPs不能确定自己处于哪种状态，需要根据当前的环境确定自己目前所处的状态。</p>
+</li>
+</ul>
+</li>
+<li><p>ToMnet任务</p>
+<p> 对于一般的强化学习问题来说，只有一个模型并且通过训练使该模型具有预测下一步状态/动作的能力；而ToMnet存在一个观察者，目标是使用这个观察者来预测agents下一步的状态/动作。那么，与POMDPs不同的是，奖励函数$R$，衰减因子$\gamma$，观察结果集$\Omega$，条件观测函数$w$与agent相关联，而不是与POMDPs相关联。因为在这个任务中，agent不是单一的而是多个，将不同的agent放在同一个POMDPs中可能产生不同的奖励/输出。此时POMDPs是状态集合$S_j$，动作集合$A_j$和转移概率$T_j$的元组$M_j={S_j,A_j,T_j }$，将所有的POMDPs写成$S=U_jS_j$。假设有一个agent族$A=U_iA_i,A_i={\Omega_i,w_i,R_i,\gamma_i,π<em>i }$，策略$π_i$可以是随机的，算法输出或模型学习得到的。如果agent $A_i$在POMDPs中遵循策略$π_i$并产生轨迹$\tau</em>{ij}={ (s_t,a_t)}<em>{t=0}^T$，则观察者能看到轨迹$\tau</em>{ij}={ (x_{t}^{(obs)},a_{t}^{(obs)})}<em>{t=0}^T$，其中$x</em>{t}^{(obs)}=w^{(obs)}(s_t),w^{(obs)}(\cdot):S \to \Omega^{(obs)}$是状态观测函数，$a_{t}^{(obs)}=\alpha^{(obs)}(a_t),\alpha^{(obs)}(\cdot)$是动作观测函数。观察者能够访问agent的轨迹，但是不能访问agent的参数、奖励和策略等。</p>
+<p> ToMnet的任务是能观察到一系列的agents，观察者必须学会预测许多agents的行为。当观察者与单个agent相遇时，能够观测到该agent $A_i$的过去的轨迹${\tau }<em>{t=0}^{N</em>{past}}$，观察者的任务是在POMDPs内对agent的下一步动作/状态进行预测。</p>
+</li>
+</ol>
+<h3 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h3><p>为了解决这个问题，DeepMind提出ToMnet架构，ToMnet由3部分构成：character网络、mental state网络和prediction网络。</p>
+<ul>
+<li><p>character网络的目标是将观察者观察到的agents的过去轨迹${\tau }<em>{t=0}^{N</em>{past}}$解析为character嵌入，从神经网络的角度考虑就是使用神经网络$f_{\theta}$来产生输出$e_{char,ij}=f_{\theta}(\tau_{ij}^{(obs)})$，然后相加得$e_{char,i}=\sum_{j=1}^{N_{past}}$。也就是说character网络是学习所有agents的过去轨迹的嵌入表示，即所有agents的共同特征。</p>
+</li>
+<li><p>mental state网络的目标是对当前agent的轨迹$\tau_{ik}^{(obs)}$进行嵌入编码。从神经网络的角度考虑$e_{mental,i}=g_{\phi}([\tau_{ik}^{(obs)}]<em>{0:t-1},e</em>{char,i})$，可以认为mental state网络学习到当前agent的特有特征。</p>
+</li>
+<li><p>prediction网络利用$e_{char}$和$e_{mental}​$来预测agent的后续行为。</p>
+</li>
+</ul>
+<p><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g06akwqdgrj20hr0de755.jpg" alt="架构"></p>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><p>为了证明ToMnet具有机器心智，即具有预测agent下一步动作/状态/策略的能力，DeepMind进行了一系列的实验加以证明，包括随机agent和强化学习agent等。</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
+<li><a href="https://arxiv.org/pdf/1802.07740.pdf" target="_blank" rel="noopener">Machine Theory of Mind</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/27629294" target="_blank" rel="noopener">学会学习Learning to Learn：让AI拥有核心价值观从而实现快速学习</a></li>
+<li><a href="https://www.leiphone.com/news/201708/tSXB6oo1mdnbKvkd.html" target="_blank" rel="noopener">元学习：实现通用人工智能的关键</a></li>
+<li><a href="https://mp.weixin.qq.com/s/n7X17CLMYZ2dUUJ4NbRFkA" target="_blank" rel="noopener">深度 | 让机器思考与互相理解：DeepMind提出机器心智理论神经网络ToMnet</a></li>
+<li><a href="https://mp.weixin.qq.com/s/1YSincOc6VloezgcucpnDw" target="_blank" rel="noopener">DeepMind提出「心智神经网络ToMnet」，训练机器的「理解」能力</a></li>
+<li><a href="https://mp.weixin.qq.com/s/BDwgPgw0ULuHoKdae2g7FA" target="_blank" rel="noopener">可解释AI重大突破 | DeepMind 构建心智理论神经网络让机器互相理解</a></li>
+<li><a href="http://tongtianta.site/paper/509" target="_blank" rel="noopener">Machine Theory of Mind翻译</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Apathy WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/02/11/00005/" rel="prev" title="Mybatis反向工程配置文件">
+      <i class="fa fa-chevron-left"></i> Mybatis反向工程配置文件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/02/14/00007/" rel="next" title="Convolutional Sequence to Sequence Learning">
+      Convolutional Sequence to Sequence Learning <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Machine-Theory-of-Mind"><span class="nav-number">1.</span> <span class="nav-text">Machine Theory of Mind</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Meta-Learning"><span class="nav-number">2.</span> <span class="nav-text">Meta Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">3.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model"><span class="nav-number">4.</span> <span class="nav-text">Model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tasks"><span class="nav-number">4.1.</span> <span class="nav-text">Tasks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Architecture"><span class="nav-number">4.2.</span> <span class="nav-text">Architecture</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experiments"><span class="nav-number">5.</span> <span class="nav-text">Experiments</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Apathy"
+      src="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+  <p class="site-author-name" itemprop="name">Apathy</p>
+  <div class="site-description" itemprop="description">没有肆意生长的野心<br>哪来梦想的星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dzapathy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dzapathy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>   
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

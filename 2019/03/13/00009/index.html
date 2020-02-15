@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<meta name="referrer" content="no-referrer"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dzapathy.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Java 并发解决方案">
+<meta property="og:url" content="https://dzapathy.github.io/2019/03/13/00009/index.html">
+<meta property="og:site_name" content="Apathy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/15/OFXLG59V17RyCY4.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26ee0d976e.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26ee0bf37c.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/26/5cc26ee0db484.png">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2lnl1r4ndj20dl0a7t9a.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2lnl4eoyvj20if0dwgme.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2lnl97ybdj20hp09fwf3.jpg">
+<meta property="article:published_time" content="2019-03-13T07:00:22.000Z">
+<meta property="article:modified_time" content="2020-02-15T11:21:56.186Z">
+<meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Concurrent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/15/OFXLG59V17RyCY4.jpg">
+
+<link rel="canonical" href="https://dzapathy.github.io/2019/03/13/00009/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Java 并发解决方案 | Apathy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apathy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dzapathy.github.io/2019/03/13/00009/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+      <meta itemprop="name" content="Apathy">
+      <meta itemprop="description" content="没有肆意生长的野心<br>哪来梦想的星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apathy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java 并发解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-13 15:00:22" itemprop="dateCreated datePublished" datetime="2019-03-13T15:00:22+08:00">2019-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-15 19:21:56" itemprop="dateModified" datetime="2020-02-15T19:21:56+08:00">2020-02-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://i.loli.net/2020/02/15/OFXLG59V17RyCY4.jpg" alt="bing"></p>
+<a id="more"></a>
+
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h3><p> 吞吐量是指系统在单位时间内处理请求的数量</p>
+<h3 id="QPS"><a href="#QPS" class="headerlink" title="QPS"></a>QPS</h3><p>每秒查询率</p>
+<h3 id="响应时间"><a href="#响应时间" class="headerlink" title="响应时间"></a>响应时间</h3><p>响应时间是指系统对请求作出响应的时间</p>
+<h3 id="并发数"><a href="#并发数" class="headerlink" title="并发数"></a>并发数</h3><p>并发用户数是指系统可以同时承载的正常使用系统功能的用户的数量</p>
+<h2 id="为什么需要高并发"><a href="#为什么需要高并发" class="headerlink" title="为什么需要高并发"></a>为什么需要高并发</h2><ol>
+<li>业务需求，比如秒杀购物；</li>
+<li>性能需求；</li>
+<li>可简化任务调度，任务调度是指基于给定时间点，给定时间间隔或给定执行次数自动执行任务；</li>
+<li>并行程序在多核CPU有优势：</li>
+</ol>
+<h2 id="高并发带来的问题"><a href="#高并发带来的问题" class="headerlink" title="高并发带来的问题"></a>高并发带来的问题</h2><h3 id="事务隔离级别带来的并发问题"><a href="#事务隔离级别带来的并发问题" class="headerlink" title="事务隔离级别带来的并发问题"></a>事务隔离级别带来的并发问题</h3><ol>
+<li><p>脏读<br>事务T1修改一个数据，T2读取该数据后事务T1回滚，T2读取到的就是脏数据</p>
+<p><img data-src="https://i.loli.net/2019/04/26/5cc26ee0d976e.png" alt="pic"></p>
+</li>
+<li><p>不可重复读<br>事务T1和T2读取一个数据，事务T1修改数据后事务T2再次读取该数据，导致两次读取不一致</p>
+<p><img data-src="https://i.loli.net/2019/04/26/5cc26ee0bf37c.png" alt="pic"></p>
+</li>
+<li><p>幻读<br>事务T1读取数据，事务T2修改数据后事务T1再次读取该数据，导致前后读取不一致</p>
+<p><img data-src="https://i.loli.net/2019/04/26/5cc26ee0db484.png" alt="pic"></p>
+</li>
+</ol>
+<p>事务的隔离级别(√表示存在问题，×表示不存在问题)</p>
+<table>
+<thead>
+<tr>
+<th align="center">隔离级别</th>
+<th align="center">脏读</th>
+<th align="center">不可重复读</th>
+<th align="center">幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">read uncommitted</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">read committed (oracle)</td>
+<td align="center">×</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">repeatable read (mysql)</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">serializable</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+</tbody></table>
+<h2 id="高并发问题解决方案"><a href="#高并发问题解决方案" class="headerlink" title="高并发问题解决方案"></a>高并发问题解决方案</h2><h3 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h3><p>在数据处理过程中，数据处于锁定状态。悲观锁的实现往往需要依靠数据库提供的锁机制。</p>
+<p>mysql 中提供了行级锁和表级锁两种封锁粒度。锁定的数据越少并发性越高，但是锁操作需要消耗资源，封锁粒度越小开销越大。</p>
+<p>mysql 中有读写锁和意向锁。当使用读写锁时，事务T想对表A加表级锁，就需要检查是否有其他事务对表A加了表级锁或对表A的某行加了行级锁，那么就需要对表A的每一行都检查，这是非常耗时的。使用意向锁可以更容易地支持多粒度加锁。</p>
+<p>意向锁在原来的排它锁和共享锁之上引入了意向排它锁和意向共享锁，意向排它锁和意向共享锁都是表锁，用来表示一个事务想要在表中的某个数据行上加排它锁或共享锁。有以下两个规定：</p>
+<ul>
+<li>一个事务对数据对象 A 加了排它锁，就可以对 A 进行读取和更新。加锁期间其它事务不能对 A 加任何锁。</li>
+<li>一个事务对数据对象 A 加了共享锁，可以对 A 进行读取操作，但是不能进行更新操作。加锁期间其它事务能对 A 加共享锁，但是不能加排它锁。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">排它锁</th>
+<th align="center">意向排它锁</th>
+<th align="center">共享锁</th>
+<th align="center">意向共享锁</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">排它锁</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr>
+<td align="center">意向排它锁</td>
+<td align="center">×</td>
+<td align="center">√</td>
+<td align="center">×</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">共享锁</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">意向共享锁</td>
+<td align="center">×</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT ... LOCK IN SHARE MODE;</span><br></pre></td></tr></table></figure>
+
+<p>上述方式对行加共享锁，对表加意向共享锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT ... FOR UPDATE</span><br></pre></td></tr></table></figure>
+
+<p>上述方式对行加排它锁，对表加意向排它锁</p>
+<h3 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h3><p>乐观锁，大多是基于数据版本 Version 记录机制实现。何谓数据版本？即为数据增加一个版本标识，在基于数据库表的版本解决方案中，一般是通过为数据库表增加一个 “version” 字段来实现。读取出数据时，将此版本号一同读出，之后更新时对此版本号加1。此时将提交数据的版本数据与数据库表对应记录的当前版本信息进行比对，如果提交的数据版本号大于数据库表当前版本号则予以更新，否则认为是过期数据。</p>
+<p>如果需要非常高的访问速度，建议使用乐观锁；如果冲突严重，建议使用悲观锁；如果重试的代价比较大，建议使用悲观锁</p>
+<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>Compare And Swap，是一种实现并发算法时常用到的技术</p>
+<p>CAS 有3个操作数：</p>
+<ul>
+<li>内存地址V</li>
+<li>旧的预期值A</li>
+<li>新的目标值B</li>
+</ul>
+<p>只有当地址指向的值等于旧值时，才进行更新，否则说明其他线程对改值进行了更改</p>
+<p>缺点：</p>
+<ul>
+<li>循环时间长开销很大</li>
+<li>只能保证一个共享变量的原子操作</li>
+<li>ABA问题</li>
+</ul>
+<blockquote>
+<p><a href="https://blog.csdn.net/v123411739/article/details/79561458" target="_blank" rel="noopener">面试必问的CAS，你懂了吗？</a></p>
+</blockquote>
+<h3 id="Java-分段锁"><a href="#Java-分段锁" class="headerlink" title="Java 分段锁"></a>Java 分段锁</h3><h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p>在高并发环境下，可以使用消息队列异步处理请求，从而缓解系统的压力。</p>
+<ol>
+<li><p>解耦</p>
+<p><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2lnl1r4ndj20dl0a7t9a.jpg" alt="o_jieou6.png"></p>
+</li>
+<li><p>异步<br><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2lnl4eoyvj20if0dwgme.jpg" alt="o_yibu3.png"></p>
+</li>
+<li><p>削峰</p>
+<p><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2lnl97ybdj20hp09fwf3.jpg" alt="o_xuefeng2.png"></p>
+</li>
+</ol>
+<h3 id="数据库缓存"><a href="#数据库缓存" class="headerlink" title="数据库缓存"></a>数据库缓存</h3><p>缓存数据是为了让客户端很少甚至不访问数据库服务器进行数据的查询，在高并发下能最大程度的降低对数据库服务器的访问压力。</p>
+<h3 id="CDN加速"><a href="#CDN加速" class="headerlink" title="CDN加速"></a>CDN加速</h3><p>CDN的全称是Content Delivery Network，即内容分发网络，尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定。在网络各处放置节点服务器所构成的在现有的互联网基础之上的一层智能虚拟网络。CDN系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。</p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>负载均衡服务器使用负载均衡算法将请求转发到集群中不同的主服务器。</p>
+<h3 id="Redis缓存"><a href="#Redis缓存" class="headerlink" title="Redis缓存"></a>Redis缓存</h3><ol>
+<li>单线程，利用redis队列技术并将访问变为串行访问，消除了传统数据库串行控制的开销</li>
+<li>redis具有快速和持久化的特征，速度快，因为数据存在内存中</li>
+<li>分布式 读写分离模式</li>
+<li>支持丰富数据类型</li>
+<li>支持事务，操作都是原子性，所谓原子性就是对数据的更改要么全部执行，要不全部不执行</li>
+<li>可用于缓存，消息，按key设置过期时间，过期后自动删除</li>
+</ol>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisTool</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 加锁</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOCK_SUCCESS = <span class="string">"OK"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SET_IF_NOT_EXIST = <span class="string">"NX"</span>; <span class="comment">// 保证互斥性</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SET_WITH_EXPIRE_TIME = <span class="string">"PX"</span>;  <span class="comment">// 保证不会发生死锁</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解锁</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Long RELEASE_SUCCESS = <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 尝试获取分布式锁</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> jedis Redis客户端</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> lockKey 锁，唯一key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> requestId 请求标识，保证解铃还须系铃人</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> expireTime 超期时间，保证不会发生死锁</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 是否获取成功</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">tryGetDistributedLock</span><span class="params">(Jedis jedis, String lockKey, String requestId, <span class="keyword">int</span> expireTime)</span> </span>&#123;</span><br><span class="line">        String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);</span><br><span class="line">        <span class="keyword">if</span> (LOCK_SUCCESS.equals(result)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 释放分布式锁</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> jedis Redis客户端</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> lockKey 锁</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> requestId 请求标识</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 是否释放成功</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">releaseDistributedLock</span><span class="params">(Jedis jedis, String lockKey, String requestId)</span> </span>&#123;</span><br><span class="line">        String script = <span class="string">"if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end"</span>;</span><br><span class="line">        Object result = jedis.eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId)); <span class="comment">// jedis.eval() 保证执行的原子性</span></span><br><span class="line">        <span class="keyword">if</span> (RELEASE_SUCCESS.equals(result)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h3><ul>
+<li>计数器<ul>
+<li>使用计数器限制一秒内能够通过的请求数，到达阈值后拒绝其他请求，一秒结束后再重新计数</li>
+<li>缺点：如果请求集中在前几毫秒，之后将无法响应请求，这种现象称为“突刺现象”</li>
+</ul>
+</li>
+<li>漏桶算法<ul>
+<li>类比：相当于睡倒入漏斗，不管倒入多少水，下边流出的速度始终保持不变</li>
+<li>可以维护一个消息队列，将请求放入消息队列，然后通过一个线程池定期的从消息队列中读取请求。当桶达到最大容量时，拒绝请求</li>
+<li>缺点：无法处理突发流量并响应时间要求比较短的场景</li>
+</ul>
+</li>
+<li>令牌桶算法<ul>
+<li>令牌桶能限制平均请求速度的同时允许一定程度的突发请求</li>
+<li>使用一个桶存放固定数量的令牌，算法以一定的速率向桶中存放令牌，存放令牌持续不断的进行，当桶满时丢弃令牌。每次请求需要先获取令牌，拿到令牌才能执行，否则等待或拒绝请求</li>
+<li>令牌桶算法运行一定程度的突发请求，比如桶初始化时允许存放100个令牌，那么这时运行100个请求同时调用</li>
+</ul>
+</li>
+</ul>
+<p>限流不仅可以限制请求数，还可以限制单个用户的上传下载的速度。</p>
+<h3 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h3><p>服务降级是当服务器压力剧增的情况下，根据当前业务情况及流量对一些服务和页面有策略的降级，以此释放服务器资源以保证核心任务正常运行。降级往往会指定不同的级别，面临不同的异常等级执行不同的处理。根据服务方式：可以拒接服务，可以延迟服务，也可以随机服务。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/数据库系统原理" target="_blank" rel="noopener">数据库系统原理</a></li>
+<li><a href="https://www.cnblogs.com/lr393993507/p/5909804.html" target="_blank" rel="noopener">Java高并发，如何解决，什么方式解决</a></li>
+<li><a href="https://mp.weixin.qq.com/s?src=11×tamp=1552709589&ver=1487&signature=0eLqftWY0AoQtBwYTmIrhJce4U4N77drv3QPFqaDf*Ec9qFBzZXpUmoM8mGOa4Ktn0TaQchdegiA6N1r4F2vnMrF2vyEmkGffhyOBbLW0g-o0*2mHQS-OwT2*ujOsG22&new=1" target="_blank" rel="noopener">别吵吵，分布式锁也是锁</a></li>
+<li><a href="https://www.cnblogs.com/linjiqin/p/8003838.html" target="_blank" rel="noopener">Redis分布式锁的正确实现方式</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Apathy WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Concurrent/" rel="tag"># Concurrent</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/05/00008/" rel="prev" title="线性判别分析">
+      <i class="fa fa-chevron-left"></i> 线性判别分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/14/00010/" rel="next" title="TCP">
+      TCP <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#吞吐量"><span class="nav-number">1.1.</span> <span class="nav-text">吞吐量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QPS"><span class="nav-number">1.2.</span> <span class="nav-text">QPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应时间"><span class="nav-number">1.3.</span> <span class="nav-text">响应时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发数"><span class="nav-number">1.4.</span> <span class="nav-text">并发数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要高并发"><span class="nav-number">2.</span> <span class="nav-text">为什么需要高并发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高并发带来的问题"><span class="nav-number">3.</span> <span class="nav-text">高并发带来的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务隔离级别带来的并发问题"><span class="nav-number">3.1.</span> <span class="nav-text">事务隔离级别带来的并发问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高并发问题解决方案"><span class="nav-number">4.</span> <span class="nav-text">高并发问题解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#悲观锁"><span class="nav-number">4.1.</span> <span class="nav-text">悲观锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乐观锁"><span class="nav-number">4.2.</span> <span class="nav-text">乐观锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS"><span class="nav-number">4.3.</span> <span class="nav-text">CAS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-分段锁"><span class="nav-number">4.4.</span> <span class="nav-text">Java 分段锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息队列"><span class="nav-number">4.5.</span> <span class="nav-text">消息队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库缓存"><span class="nav-number">4.6.</span> <span class="nav-text">数据库缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN加速"><span class="nav-number">4.7.</span> <span class="nav-text">CDN加速</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡"><span class="nav-number">4.8.</span> <span class="nav-text">负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis缓存"><span class="nav-number">4.9.</span> <span class="nav-text">Redis缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式锁"><span class="nav-number">4.10.</span> <span class="nav-text">分布式锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#限流"><span class="nav-number">4.11.</span> <span class="nav-text">限流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务降级"><span class="nav-number">4.12.</span> <span class="nav-text">服务降级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Apathy"
+      src="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+  <p class="site-author-name" itemprop="name">Apathy</p>
+  <div class="site-description" itemprop="description">没有肆意生长的野心<br>哪来梦想的星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dzapathy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dzapathy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>   
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

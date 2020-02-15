@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<meta name="referrer" content="no-referrer"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dzapathy.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Convolutional Sequence to Sequence Learning">
+<meta property="og:url" content="https://dzapathy.github.io/2019/02/14/00007/index.html">
+<meta property="og:site_name" content="Apathy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/15/r2exHfqLnpkTWFX.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g06be441k4j20sg0e8t9l.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g2lorui2j8j20yr0rn40h.jpg">
+<meta property="og:image" content="https://camo.githubusercontent.com/a3c087bfca2eb44553f284ac13b19ccc27a333ed/68747470733a2f2f332e62702e626c6f6773706f742e636f6d2f2d3350626a5f64767430566f2f562d71652d4e6c365035492f41414141414141414251632f7a305f365774565774764152744d6b3069395f41744c6579794779563641493477434c63422f73313630302f6e6d742d6d6f64656c2d666173742e676966">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c165b277a9ec.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c165b2729e90.png">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g06bhqpse2j21q10nbqam.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2losp59tej20nh0coq33.jpg">
+<meta property="og:image" content="https://i.loli.net/2018/12/19/5c19ba8b07c39.jpg">
+<meta property="og:image" content="https://i.loli.net/2018/12/19/5c19c19bc352f.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g06be7ig14j2082049t8l.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g06beaip9xj20kw07mt8x.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2lotg379yj20or0b6ab6.jpg">
+<meta property="og:image" content="https://i.loli.net/2018/12/19/5c19b44e52ec8.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g06bef0ga9j20fs0dyt9g.jpg">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c165b2778c45.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c165b27c9471.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c165b277c775.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c165b27c818b.png">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g06beig5pdj20d70ckaal.jpg">
+<meta property="article:published_time" content="2019-02-14T14:28:08.000Z">
+<meta property="article:modified_time" content="2020-02-15T11:38:03.857Z">
+<meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Deep Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/15/r2exHfqLnpkTWFX.jpg">
+
+<link rel="canonical" href="https://dzapathy.github.io/2019/02/14/00007/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Convolutional Sequence to Sequence Learning | Apathy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apathy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dzapathy.github.io/2019/02/14/00007/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+      <meta itemprop="name" content="Apathy">
+      <meta itemprop="description" content="没有肆意生长的野心<br>哪来梦想的星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apathy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Convolutional Sequence to Sequence Learning
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-02-14 22:28:08" itemprop="dateCreated datePublished" datetime="2019-02-14T22:28:08+08:00">2019-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-15 19:38:03" itemprop="dateModified" datetime="2020-02-15T19:38:03+08:00">2020-02-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://i.loli.net/2020/02/15/r2exHfqLnpkTWFX.jpg" alt="BerlinerMauerFall_ZH-CN1154604596_1920x1080.jpg"></p>
+<a id="more"></a>
+
+<blockquote>
+<p>Convolutional Sequence to Sequence Learning 是 Facebook 在 2017 年发表的论文，提出 ConvS2S 模型。Seq2Seq 模型在自然语言处理、计算机视觉、语音识别等领域都有非常广泛的应用。Seq2Seq模型是Encoder-Decoder结构，当应用在 NLP 领域时，它的编码器和解码器通常都都选择 RNN/ LSTM / GRU / SRU 网络。而这篇论文摒弃了RNN网络，而是使用 CNN 来做 Seq2Seq 任务，并且在机器翻译任务上取得了非常不错的结果。</p>
+</blockquote>
+<h2 id="Neural-history-of-NLP"><a href="#Neural-history-of-NLP" class="headerlink" title="Neural history of NLP"></a>Neural history of NLP</h2><p><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g06be441k4j20sg0e8t9l.jpg" alt="发展"></p>
+<p>下面我来介绍一下使用神经网路来做 NLP 的发展史：</p>
+<ul>
+<li><p>2001 - Neural language models</p>
+<p>2001年，Bengio 提出神经概率语言模型（NPLM）模型用于语言建模任务。语言建模任务指的是给定上下文单词去预测当前单词，NPLM 模型使用前馈神经网络来根据上下文信息预测当前词出现的概率<br>$$<br>i-th , output = P(w_i = i | context)<br>$$</p>
+<blockquote>
+<p><a href="https://papers.nips.cc/paper/1839-a-neural-probabilistic-language-model.pdf" target="_blank" rel="noopener">A Neural Probabilistic Language Model-2001</a></p>
+<p><a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="noopener">A Neural Probabilistic Language Model-2003</a></p>
+</blockquote>
+</li>
+<li><p>2008 - Multi-task learning</p>
+<p>2008年，Collobert 和 Weston 首次将多任务学习应用到 NLP 领域。多任务学习（Multi-task learning）是基于共享表示，把多个相关的任务放在一起学习的一种机器学习方法</p>
+<blockquote>
+<p><a href="https://ronan.collobert.com/pub/matos/2008_nlp_icml.pdf" target="_blank" rel="noopener">A Unified Architecture for Natural Language Processing:Deep Neural Networks with Multitask Learning-2008</a></p>
+<p><a href="http://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf" target="_blank" rel="noopener">Natural Language Processing (Almost) from Scratch-2011</a></p>
+</blockquote>
+</li>
+<li><p>2013 - Word embeddings</p>
+<p>2013年，Mikolov 等人提出 Word2Vec 模型来构建词嵌入表示。以往的文本表示都是基于 one-hot 这类的稀疏向量，具有高维稀疏、无法学习词之间的信息等问题，而 Word2Vec 是密集向量并且能够学习到词之间的相似性</p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient Estimation of Word Representations in Vector Space-2013-Word2Vec</a></p>
+<p><a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf" target="_blank" rel="noopener">Distributed Representations of Words and Phrases and their Compositionality-2013-Word2Vec</a></p>
+<p><a href="https://nlp.stanford.edu/pubs/glove.pdf" target="_blank" rel="noopener">GloVe: Global Vectors for Word Representation-2014-GloVe</a></p>
+<p><a href="https://arxiv.org/pdf/1506.02761.pdf" target="_blank" rel="noopener">WordRank: Learning Word Embeddings via Robust Ranking-2015-WordRank</a></p>
+<p><a href="https://arxiv.org/pdf/1607.01759.pdf" target="_blank" rel="noopener">Bag of Tricks for Efficient Text Classification-2016-FastText</a></p>
+</blockquote>
+</li>
+<li><p>2013 - Neural networks for NLP</p>
+<p>2013 年后，大量的深度学习模型开始应用到 NLP 领域，使用最广泛的神经网络是RNN、CNN、层次网络、递归神经网络</p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/1404.2188.pdf" target="_blank" rel="noopener">A Convolutional Neural Network for Modelling Sentences-2014</a></p>
+<p><a href="https://arxiv.org/pdf/1408.5882.pdf" target="_blank" rel="noopener">Convolutional Neural Networks for Sentence Classification-2014</a></p>
+<p><a href="https://arxiv.org/pdf/1610.10099.pdf" target="_blank" rel="noopener">Neural Machine Translation in Linear Time-2016</a></p>
+<p><a href="http://anthology.aclweb.org/P16-2037" target="_blank" rel="noopener">Dimensional Sentiment Analysis Using a Regional CNN-LSTM Model-2016</a></p>
+</blockquote>
+</li>
+<li><p>2014 - Sequence to Sequence models<br>2014 年，Sutskever 等人提出了 Seq2Seq 模型。Seq2Seq 模型属于编码器-解码器结构，在自然语言处理、计算机视觉、语音识别等领域都有非常广泛的应用</p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/1406.1078.pdf" target="_blank" rel="noopener">Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation-2014</a></p>
+<p><a href="https://arxiv.org/pdf/1409.3215.pdf" target="_blank" rel="noopener">Sequence to sequence learning with neural networks-2014</a></p>
+</blockquote>
+</li>
+<li><p>2015 - Attention</p>
+<p>Attention 机制从大量信息中有选择地筛选出少量重要信息并聚焦到这些重要信息上，忽略大多不重要的信息。Attention 机制最早是20世纪90年代，在图像领域提出的一种思想。真正让 Attention 机制火起来的是 Google 在2014年发表的一篇文章《<a href="https://arxiv.org/pdf/1406.6247.pdf" target="_blank" rel="noopener">Recurrent Models of Visual Attention</a>》，在RNN模型基础上加入 Attention 机制来对图像进行分类，使用强化学习机制进行训练。2015年，Bahdanau等人在 Seq2Seq 模型中加入Attention 机制用于机器翻译，这是第一篇将 Attention 机制应用到自然语言处理领域的文章。随后，Attention 机制被广泛应用于自然语言处理、计算机视觉和语音识别等各种不同类型的深度学习任务中，成为了深度学习中非常值得关注与了解的核心技术，也成为了深度学习中非常重要的思想之一</p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/1406.6247.pdf" target="_blank" rel="noopener">Recurrent Models of Visual Attention-2014</a></p>
+<p><a href="https://arxiv.org/pdf/1409.0473.pdf" target="_blank" rel="noopener">Neural Machine Translation by Jointly Learning to Align and Translate-2015</a></p>
+<p><a href="https://arxiv.org/pdf/1508.04025.pdf" target="_blank" rel="noopener">Effective Approaches to Attention-based Neural Machine Translation-2015</a></p>
+<p><a href="https://arxiv.org/pdf/1512.05193.pdf" target="_blank" rel="noopener">ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs-2015</a></p>
+<p><a href="https://arxiv.org/pdf/1705.03122.pdf" target="_blank" rel="noopener">Convolutional Sequence to Sequence Learning-2017</a></p>
+<p><a href="https://arxiv.org/pdf/1706.03762.pdf" target="_blank" rel="noopener">Attention Is All You Need-2017</a></p>
+</blockquote>
+</li>
+<li><p>2015 - Memory-based networks</p>
+<p>记忆网络是在神经网络的基础上引入记忆单元，用来存储长期记忆。记忆单元可以是向量、矩阵或多个矩阵</p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/1410.5401.pdf" target="_blank" rel="noopener">Neural turing machines-2015</a></p>
+<p><a href="https://arxiv.org/pdf/1410.3916.pdf" target="_blank" rel="noopener">Memory Networks-2015</a></p>
+<p><a href="https://arxiv.org/pdf/1503.08895.pdf" target="_blank" rel="noopener">End-To-End Memory Networks-2015</a></p>
+<p><a href="https://arxiv.org/pdf/1506.07285.pdf" target="_blank" rel="noopener">Ask me anything: Dynamic memory networks for natural language processing-2015</a></p>
+<p><a href="https://arxiv.org/pdf/1603.01417.pdf" target="_blank" rel="noopener">Dynamic Memory Networks for Visual and Textual Question Answering-2016</a></p>
+<p><a href="https://www.nature.com/articles/nature20101" target="_blank" rel="noopener">Hybrid computing using a neural network with dynamic external memory-2016</a></p>
+<p><a href="https://arxiv.org/pdf/1612.03969.pdf" target="_blank" rel="noopener">Tracking the World State with Recurrent Entity Networks-2017</a></p>
+</blockquote>
+</li>
+<li><p>2018 - Pretrained language models</p>
+<p>预训练语言模型是指利用大规模数据集预训练模型进行迁移学习。一方面可以更好的初始化网络参数，另一方面可以加快模型收敛，并且能够取得更好的效果。词嵌入可以认为仅用于初始化模型中的第一层，而预训练语言模型是预训练多层神经网络</p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/1802.05365.pdf" target="_blank" rel="noopener">Deep Contextualized Word Representations-2018-ELMO</a></p>
+<p><a href="https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank" rel="noopener">Improving Language Understanding by Generative Pre-Training-2018-GPT</a></p>
+<p><a href="https://arxiv.org/pdf/1810.04805.pdf" target="_blank" rel="noopener">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding-2018-BERT</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Seq2Seq-Attention"><a href="#Seq2Seq-Attention" class="headerlink" title="Seq2Seq + Attention"></a>Seq2Seq + Attention</h2><h3 id="Seq2Seq"><a href="#Seq2Seq" class="headerlink" title="Seq2Seq"></a>Seq2Seq</h3><p>以 Seq2Seq 模型应用到邮件回复系统为例，Encoder 和 Decoder 使用的都是 LSTM。当发送“ Are you free tommorws? ”时，得到自动回复“ Yes, what’s up? ”。首先看 Encoder 部分，在每一时刻 i ，Encoder 接收一个单词，i 时刻隐藏层的计算公式为：<br>$$<br>h_i = RNN(h_{i-1},x_i)<br>$$<br>直到计算完最后一个单词 ，得到输入的隐藏向量 C 作为 Decoder 的初始状态。Decoder 在 i 时刻的输出的计算公式为：<br>$$<br>y_i = RNN(h_{i-1},y_{i-1})<br>$$<br>其实 Seq2Seq 模型是比较灵活的，刚刚讲的只是其中一种。还有另一种变体，随机初始化 / 全零初始化 Decoder 的初始状态，然后将编码器得到的隐藏向量 C 和 上一时刻的输出一起输入到解码器中：<br>$$<br>y_i = RNN(h_{i-1},y_{i-1},C)<br>$$</p>
+<h3 id="Seq2Seq-Attention-1"><a href="#Seq2Seq-Attention-1" class="headerlink" title="Seq2Seq+Attention"></a>Seq2Seq+Attention</h3><p>Seq2Seq 模型 Encoder 最终输出向量 C 作为输入句子的特征表示，这里 C 是固定的。当引入 Attention 机制后， C ，Decoder 不同的词对应不同的 C 。</p>
+<p><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g2lorui2j8j20yr0rn40h.jpg" alt="test.jpg"></p>
+<p><img data-src="https://camo.githubusercontent.com/a3c087bfca2eb44553f284ac13b19ccc27a333ed/68747470733a2f2f332e62702e626c6f6773706f742e636f6d2f2d3350626a5f64767430566f2f562d71652d4e6c365035492f41414141414141414251632f7a305f365774565774764152744d6b3069395f41744c6579794779563641493477434c63422f73313630302f6e6d742d6d6f64656c2d666173742e676966" alt="pic"></p>
+<p>基于RNN的 Seq2Seq + Attention 模型在做什么：</p>
+<ul>
+<li><p>Encoder：学习各个词的隐藏表示</p>
+</li>
+<li><p>Attention：根据 Decoder 上一时刻隐藏状态和 Encoder 各个词的隐藏表示计算 Attention 向量</p>
+</li>
+<li><p>Decoder：根据 Decoder 上一时刻隐藏状态和 Attention 向量学习 Decoder 当前时刻的隐藏表示</p>
+</li>
+<li><p>Softmax：生成词分布，获得概率最大值</p>
+</li>
+<li><p>Encoder 学习输入数据中各个词的隐藏表示，并且每个词的隐藏表示包含上下文信息，甚至包含整个输入数据和当前词之间的信息<br>$$<br>z_i = RNN(z_{i-1}, x_i) \<br>$$</p>
+</li>
+<li><p>当计算 Decoder 第 i 时刻的输出时，Attention 学习 i-1 时刻隐藏状态 / 上下文信息和 Encoder 的各个词的权重<br>$$<br>a_{ij} = \frac{exp(a(s_{i-1},z_j))}{\sum^{T}<em>{k=1}exp(a(s</em>{i-1},z_k))} \<br>C_i = \sum^{T}<em>{j=1}a</em>{ij}s_j<br>$$</p>
+</li>
+<li><p>Decoder 根据上一时刻的隐藏表示和当前时刻的 Attention 向量来生成当前词的隐藏表示，并且每个生成词的隐藏表示包含上文信息，甚至包含上文全部信息<br>$$<br>y_i = RNN(h_{i-1},C_i)<br>$$<br>最后经过 softmax 层输出生成词</p>
+</li>
+</ul>
+<p>基于RNN的 Seq2Seq + Attention 模型的缺点：</p>
+<ul>
+<li><p>无法并行计算</p>
+</li>
+<li><p>存在长期依赖问题<br>$$<br>P(S_{t+1}|S_t) = P(S_{t+1}|S_1,…,S_t)<br>$$</p>
+</li>
+<li><p>不能很好处理句子结构化信息</p>
+</li>
+<li><p>不平衡</p>
+</li>
+<li><p>一错到底</p>
+</li>
+<li><p>RNN无法并行计算：RNN网络依赖前一时刻的输出</p>
+</li>
+<li><p>RNN存在长期依赖问题：本质上是马尔科夫决策过程，具有马尔科夫性：<br>$$<br>P(S_{t+1}|S_t) = P(S_{t+1}|S_1,…,S_t)<br>$$<br>其中状态 $S_t$ 包含了所有历史相关信息</p>
+</li>
+<li><p>RNN并不能很好的处理句子中的结构化信息：RNN能够很好地学习序列信息，但不能很好地学习词之间的信息、语义信息或者更复杂的信息</p>
+</li>
+<li><p>RNN序列中的第一个元素会进行N次非线性运算，而最后一个元素仅进行1次非线性运算；RNN学习到的隐藏表示是不平衡的，第一个隐藏表示只包含当前词的信息，而最后一个隐藏表示包含所有词的信息</p>
+</li>
+</ul>
+<h2 id="ConvS2S"><a href="#ConvS2S" class="headerlink" title="ConvS2S"></a>ConvS2S</h2><p><img data-src="https://i.loli.net/2018/12/16/5c165b277a9ec.png" alt="convs2s.png"></p>
+<h3 id="Position-Embedding"><a href="#Position-Embedding" class="headerlink" title="Position Embedding"></a>Position Embedding</h3><ol>
+<li><p>Data preprocessing</p>
+<p>在 NLP 中数据通常是不定长的，而CNN / RNN 网络要求输入定长数据，所以第一步要做的是数据预处理，将不定长数据转化为定长数据。转化的方法有两种：第一种是填充，第二种是切割，最后得到长度为 m 的输入序列：<br>$$<br>x = (x_i,…,x_m)<br>$$<br>得到定长数据之后，需要建立字典，将词和 one-hot 建立映射关系。</p>
+</li>
+<li><p>Word embedding</p>
+<p>使用Word2Vec、Glove、FastText、WordRank等任意一个 word embedding 模型，将 one-hot 向量转化成连续向量，得 ：<br>$$<br>w = (w_i,…,w_m), w_i \in R^d<br>$$</p>
+</li>
+<li><p>Position embedding</p>
+<p>对于时间序列来说，尤其是对于NLP中的任务来说，顺序是很重要的信息，它代表着局部甚至是全局的结构，学习不到顺序信息，那么效果将会大打折扣。RNN 擅长处理时序问题，时序问题强调时间的先后顺序，时序问题可以不严格等价于位置问题，先发生的位置在前，后发生的位置在后；CNN 可以使用滑动窗口来捕捉位置信息，只不过在处理时序任务上，CNN 并没有 RNN 那么擅长，所以引入 Position embedding 的目的就是为了让词包含位置信息，从而使 CNN 更好地处理时序任务：<br>$$<br>p = (p_i,…,p_m), p_i \in R^d<br>$$<br>Word embedding 是相对于 Word 而言的，Position embedding 是相对于 Position 而言的。什么是位置信息呢？举个例子，“ I love China ”这句话包含3个单词，“I”的位置是1，“love”的位置是2，“China”的位置是3，那么1,2,3就是位置信息。但是直接使用整数来表示位置信息无法应用到神经网络中，通常会将数字映射成 one-hot 向量，比如1映射成(1,0,0)，2映射成(0,1,0)，以此类推。但 one-hot 向量是高维稀疏的，所以通常会将 one-hot 向量转化为类似于 word embedding 的密集连续向量。</p>
+<ul>
+<li><p>一种方式是将 one-hot / 数字输入到 embedding 层得到连续向量<br>$$<br>\begin{pmatrix}1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \end{pmatrix}<br>\begin{pmatrix}w_{11} &amp; w_{12} &amp; w_{13}\<br>w_{21} &amp; w_{22} &amp; w_{23}\<br>w_{31} &amp; w_{32} &amp; w_{33}\<br>w_{41} &amp; w_{42} &amp; w_{43}\<br>w_{51} &amp; w_{52} &amp; w_{53}\<br>w_{61} &amp; w_{62} &amp; w_{63}\end{pmatrix}<br>=\begin{pmatrix}w_{11} &amp; w_{12} &amp; w_{13}\<br>w_{21} &amp; w_{22} &amp; w_{23}\end{pmatrix}<br>$$<br>假设句子的长度是6，Position embedding 的维度是3，最终 embedding 层可以得到长度为 m 的句子的 Position embedding。</p>
+</li>
+<li><p>另一种方式是使用公式计算<br>$$<br>PE_{\left ( pos,2i \right )}=sin\left ( \frac{pos}{1000^{2i/d}} \right ) \<br>PE_{\left ( pos,2i+1 \right )}=cos\left ( \frac{pos}{1000^{2i/d}} \right )<br>$$<br>其中，pos表示位置，i 表示维度，d 表示 Position Embedding 的维度。生成位置向量中偶数部分的值使用第一个公式，生成位置向量中奇数部分的值使用第二个公式。</p>
+<p>比如英语句子“Tom chase jerry”，我们想把 Tom 映射为3维的位置向量，那么pos=1,d=3，而位置向量的每个值为：<br>$$<br>PE_{\left ( 1,0 \right )}=sin\left ( \frac{1}{1000^{0/3}} \right )<br>$$</p>
+<p>$$<br>PE_{\left ( 1,1 \right )}=cos\left ( \frac{1}{1000^{0/3}} \right )<br>$$</p>
+<p>$$<br>PE_{\left ( 1,2 \right )}=sin\left ( \frac{1}{1000^{2/3}} \right )<br>$$</p>
+<p>Position Embedding本身是一个绝对位置的信息，但在语言中相对位置也很重要，Google选择前述的位置向量公式的一个重要原因是：<br>$$<br>sin(α+β)=sinαcosβ+cosαsinβ \<br>cos(α+β)=cosαcosβ−sinαsinβ<br>$$<br>这表明位置 p+k 的向量可以表示成位置 p 的向量的线性变换，这提供了表达相对位置信息的可能性。</p>
+</li>
+</ul>
+</li>
+<li><p>Element represention</p>
+<p>结合位置向量和词向量有几个可选方案，可以把它们拼接起来作为一个新向量，也可以把位置向量定义为跟词向量一样大小，然后两者加起来。Facebook 选择的是前者：<br>$$<br>e=(w_1+p_1,…,w_m+p_m),e_i \in R^d<br>$$</p>
+</li>
+</ol>
+<p>同理，对解码器的输入也使用 Word embedding + Position embedding ，得：<br>$$<br>g = (g_1,…,g_n)<br>$$<br>下图是在 WMT’14 English-German 数据集上做的实验，PPL表示困惑度，越小越好；BLEU越大越好。从表中可以看出，加入 Position embedding 之后，可以或多或少的提高模型的效果。即使不加 Position embedding ，ConvS2S 模型也能取得不错的效果，原因是 CNN 网络本身就能利用位置信息。</p>
+<p><img data-src="https://i.loli.net/2018/12/16/5c165b2729e90.png" alt="convtable4.png"></p>
+<h3 id="Convolutional-Block-Structure"><a href="#Convolutional-Block-Structure" class="headerlink" title="Convolutional Block Structure"></a>Convolutional Block Structure</h3><p>Encoder 第 l block 的输出为：<br>$$<br>z^l = (z_1^l,…,z_m^l)<br>$$<br>Decoder 第 l block 的输出为：<br>$$<br>h_l = (h_1^l,…,h_n^l)<br>$$</p>
+<ol>
+<li><p>Gated Convolutional Networks</p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/1612.08083.pdf" target="_blank" rel="noopener">Language Modeling with Gated Convolutional Networks</a></p>
+</blockquote>
+<p>门卷积借鉴了LSTM中门的思想，首先回顾一下LSTM</p>
+<p><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g06bhqpse2j21q10nbqam.jpg" alt="pic"><br>$$<br>f_t = \sigma (W_f \cdot [h_{t-1},x_t] + b_f) \<br>i_t = \sigma (W_i \cdot [h_{t-1},x_t] + b_i) \<br>\tilde{C}<em>t = tanh(W_C \cdot [h</em>{t-1},x_t] + b_C) \<br>C_t = f_t \otimes C_{t-1} + i_t \otimes \tilde{C}<em>t \<br>o_t = \sigma (W_o \cdot [h</em>{t-1},x_t] + b_o) \<br>h_t = o_t \otimes tanh(C_t)<br>$$</p>
+<p>实际上 LSTM 通过 sigmoid 函数学习概率，来决定哪些数据应该以多大比例遗忘，哪些数据应该以多大比例记住。门 CNN 同理，通过 sigmoid 函数来决定当前的特征应该以多大比例保留：</p>
+<p>$$<br>h^l(X) = (X * W + b) \otimes \sigma (X * V + c)  \<br>or \quad h^l(X) = tanh(X * W + b) \otimes \sigma (X * V + c) \<br>$$<br>第一种叫Gated linear unit (GLU) ，第二种叫 Gated tanh unit (GTU)</p>
+<p>GLU的优点：</p>
+<ul>
+<li><p>按一定比例保留数据</p>
+</li>
+<li><p>具有拟合非线性函数能力的同时保留线性路径，减缓梯度消失问题<br>  $$<br>  \bigtriangledown [X \otimes \sigma(X)] = \bigtriangledown X \otimes \sigma(X) + X \otimes \sigma(X)^{‘} \bigtriangledown X<br>  $$</p>
+<p>接下来介绍如何利用一维卷积和GLU来获得隐藏表示$h^l_i \in R^d$ ：</p>
+<p><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g2losp59tej20nh0coq33.jpg" alt="convblock.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># method 1</span></span><br><span class="line">z = keras.layers.Conv1D(<span class="number">2</span>d, <span class="number">3</span>, padding=<span class="string">'same'</span>,activation=<span class="literal">None</span>)(e)</span><br><span class="line">z = z[:,:,:d] * K.sigmoid(z[:,:,d:])</span><br><span class="line"></span><br><span class="line"><span class="comment"># method 2</span></span><br><span class="line">z1 = keras.layers.Conv1D(d, <span class="number">3</span>, padding=<span class="string">'same'</span>,activation=<span class="literal">None</span>)(e)</span><br><span class="line">z2 = keras.layers.Conv1D(d, <span class="number">3</span>, padding=<span class="string">'same'</span>,activation=<span class="string">'sigmoid'</span>)(e)</span><br><span class="line">z = z1 * z2</span><br></pre></td></tr></table></figure>
+
+<p>Encoder 可以获取全部数据信息，所以计算每个词的隐藏表示时可以利用上下文信息甚至利用整句话的信息。但是对于序列生成任务来说，Decoder 的每个词是逐个生成的。由于是监督任务，在训练时可以得到 Decoder 的全部输入。但是在测试时我们并不知道 Decoder 的后续词。所以在 Decoder 部分我们需要对卷积做一些改变，让它只利用上文信息，而无法利用下文信息。具体的做法是给卷积核加 mask 掩码：<br>$$<br>h^l(X) = (X * (W \otimes I) + b) \otimes \sigma (X * (V \otimes I) + c)<br>$$<br>其中，$I$ 表示掩码矩阵。举个例子，词嵌入的维度是4，一维卷积核大小是5，它的掩码矩阵是：<br>$$<br>\begin{pmatrix}w_{11} &amp; w_{12} &amp; w_{13} &amp; w_{14}\<br>w_{21} &amp; w_{22} &amp; w_{23} &amp; w_{24}\<br>w_{31} &amp; w_{32} &amp; w_{33} &amp; w_{34}\<br>w_{41} &amp; w_{42} &amp; w_{43} &amp; w_{44}\<br>w_{51} &amp; w_{52} &amp; w_{53} &amp; w_{54}\end{pmatrix}<br>\otimes<br>\begin{pmatrix}1 &amp; 1 &amp; 1 &amp; 1\<br>1 &amp; 1 &amp; 1 &amp; 1\<br>1 &amp; 1 &amp; 1 &amp; 1\<br>0 &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; 0 &amp; 0 &amp; 0\end{pmatrix}<br>$$<br><img data-src="https://i.loli.net/2018/12/19/5c19ba8b07c39.jpg" alt="pic"></p>
+<p><img data-src="https://i.loli.net/2018/12/19/5c19c19bc352f.jpg" alt="pic"></p>
+</li>
+</ul>
+</li>
+<li><p>Residual block</p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/1512.03385.pdf" target="_blank" rel="noopener">Deep Residual Learning for Image Recognition</a></p>
+</blockquote>
+<p>$$<br>h_i^l = h_i^l + h_{i-1}^l \<br>or \quad h_i^l = f(h_i^l) + h_{i-1}^l \<br>or \quad h_i^l = h_i^l + f(h_{i-1}^l) \<br>or \quad h_i^l = f(h_i^l) + f(h_{i-1}^l) \<br>or \quad h_i^l = f(h_i^l + h_{i-1}^l)<br>$$</p>
+<p>优点：</p>
+<ul>
+<li><p>减缓梯度消失</p>
+<p><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g06be7ig14j2082049t8l.jpg" alt="pic"></p>
+<p>深层网络比浅层网络更具表现力，但随着网络加深，模型越来越难以训练，存在梯度消失问题。如上图加入残差块后，进行反向传播时，$a^{[l+2]}$ 层的梯度会有两个传播路径：沿着深层网络传播；沿着跳跃连接传播。即使深层网络反向传播过程中梯度为0，但是由于存在跳跃连接提供梯度，所以会减缓梯度消失的问题。</p>
+</li>
+<li><p>保证网络性能<br><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g06beaip9xj20kw07mt8x.jpg" alt="pic"></p>
+</li>
+</ul>
+</li>
+<li><p>add layers</p>
+<ul>
+<li><p>捕获更多的上下文信息</p>
+<p><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g2lotg379yj20or0b6ab6.jpg" alt="pic"></p>
+</li>
+<li><p>理论上，深层网络比浅层网络更具表现力</p>
+<p><img data-src="https://i.loli.net/2018/12/19/5c19b44e52ec8.jpg" alt="pic"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="Multi-step-Attention"><a href="#Multi-step-Attention" class="headerlink" title="Multi-step Attention"></a>Multi-step Attention</h3><ol>
+<li><p>Attention</p>
+<p>Attention 机制从大量信息中有选择地筛选出少量重要信息并聚焦到这些重要信息上，忽略大多不重要的信息。</p>
+<p><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g06bef0ga9j20fs0dyt9g.jpg" alt="pic"></p>
+<p>上图中，key 和 value 表示原语句 source 的元素；query 表示目标语句 target 的元素。Attention 机制可以分为3个阶段。以机器翻译为例，key 和 value 都表示原语句的特征表示，qyery 表示上一时刻的隐藏状态 / 上文特征。公式如下：</p>
+<ul>
+<li><p>计算 query 和 key 的相似度<br>$$<br>Similarity(Query,Key_i) = Query\cdot Key_i<br>$$</p>
+</li>
+<li><p>softmax 归一化得到 key 对应 value 的权重<br>$$<br>a_i = Softmax(Similarity_i)=\frac{e^{Similarity_i}}{\sum_{i=1}^{L_x}e^{Similarity_i}}<br>$$</p>
+</li>
+<li><p>对 value 进行加权求和<br>$$<br>Attention(Query,Source)=\sum_{i=1}^{L_x}a_i\cdot Value_i<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>Multi-step Attention<br>$$<br>d_i^l = W_d^l h_i^l + b_d^l + g_i \<br>a_{ij}^l = \frac{exp(d_i^l \cdot z_j^u)}{\sum_{t=1}^{m}exp(d_i^l \cdot z_t^u)} \<br>c_i^l = \sum_{j=1}^{m} a_{ij}^l(z_j^u + e_j)<br>$$</p>
+<ul>
+<li>第一个公式：残差，将 Decoder 第 $l$ 层的隐藏表示进行线性变换，然后与 Decoder 的输入 $g$ 相加作为第 $l$ 层最后的隐藏状态</li>
+<li>第二个公式：$z_j^u$ 表示 Encoder 最后一层的输出的第 $j$ 个隐藏表示；计算 Encoder 各个隐藏表示与 Decoder 的隐藏特征表示 $d_i^l$ 的相似度，再进行 softmax 归一化</li>
+<li>第三个公式：对 value 进行加权求和，此时 query 是Decoder 第 $l$ 层的第 $i$时刻的特征 $d_i^l$；key 是Encoder 最后一层的输出 $z_j^u$； value 是 $z_j^u + e_j$ 。为什么 value 要加入 $e_j$ 信息？ $z_j^u$ 表示 $j$ 时刻词的特征表示，这个特征表示包含上下文信息；$e_i$ 提供对应输入元素的词信息。在机器翻译这种序列任务中存在词与词对齐的要求，以前的对齐方式是逐元素对齐，这也印证了加入特定输入元素的点信息是有好处的。局部 Attention 的一种对齐方式就是选择对应位置元素，并且 key-value 记忆网络也印证了这一点。</li>
+</ul>
+</li>
+</ol>
+<p><img data-src="https://i.loli.net/2018/12/16/5c165b2778c45.png" alt="convtable5.png"></p>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><ul>
+<li>一般建立字典方式：使用<code>&lt;UNK&gt;</code>表示集外词</li>
+<li>双字节编码（byte-pair encoding, BPE）：把罕见词拆分成“子词单元”的组合，解决集外词和罕见词问题</li>
+<li>Word pieces：把单词分别为单词块，解决集外词和罕见词问题</li>
+</ul>
+<p><img data-src="https://i.loli.net/2018/12/16/5c165b27c9471.png" alt="couvs2stable1.png"></p>
+<p><img data-src="https://i.loli.net/2018/12/16/5c165b277c775.png" alt="convs2stable2.png"></p>
+<p><img data-src="https://i.loli.net/2018/12/16/5c165b27c818b.png" alt="convtable3.png"></p>
+<h3 id="beam-search"><a href="#beam-search" class="headerlink" title="beam search"></a>beam search</h3><ul>
+<li><p>贪心搜素（greedy search）</p>
+<p>生成第一个词的分布以后，选择最有可能的第一个词，然后根据第一个词继续挑选出最有可能的第二个词，以此类推，这种算法就叫做贪心搜索。但是真正需要的是挑选出一个序列，使得 $y^1,…,y^n$ 的概率最大化，而贪心搜索不能满足这种需求。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">French: Jane visite l'Afrique en septembre</span><br><span class="line"></span><br><span class="line">Jane is visiting Africa in September</span><br><span class="line">Jane is going to be visiting Africa in September</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>集束搜索（beam search）</p>
+<p>每一时刻我们都会得到每个词的概率，如果想使得 $y^1,…,y^n$ 的概率最大化，最笨拙的想法是保留所有词的概率值，最后从 $size^{n}$ 个序列中选择概率最大的作为最终的输出序列，但是这种方式的计算成本是无法接受的。集束搜索的方式是每次选择前 d 个概率最大的词。</p>
+<p><img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g06beig5pdj20d70ckaal.jpg" alt="pic"></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Apathy WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/02/14/00006/" rel="prev" title="Machine Theory of Mind">
+      <i class="fa fa-chevron-left"></i> Machine Theory of Mind
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/05/00008/" rel="next" title="线性判别分析">
+      线性判别分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Neural-history-of-NLP"><span class="nav-number">1.</span> <span class="nav-text">Neural history of NLP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seq2Seq-Attention"><span class="nav-number">2.</span> <span class="nav-text">Seq2Seq + Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Seq2Seq"><span class="nav-number">2.1.</span> <span class="nav-text">Seq2Seq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Seq2Seq-Attention-1"><span class="nav-number">2.2.</span> <span class="nav-text">Seq2Seq+Attention</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConvS2S"><span class="nav-number">3.</span> <span class="nav-text">ConvS2S</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Position-Embedding"><span class="nav-number">3.1.</span> <span class="nav-text">Position Embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convolutional-Block-Structure"><span class="nav-number">3.2.</span> <span class="nav-text">Convolutional Block Structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-step-Attention"><span class="nav-number">3.3.</span> <span class="nav-text">Multi-step Attention</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experiments"><span class="nav-number">4.</span> <span class="nav-text">Experiments</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#beam-search"><span class="nav-number">4.1.</span> <span class="nav-text">beam search</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Apathy"
+      src="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+  <p class="site-author-name" itemprop="name">Apathy</p>
+  <div class="site-description" itemprop="description">没有肆意生长的野心<br>哪来梦想的星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dzapathy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dzapathy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>   
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<meta name="referrer" content="no-referrer"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dzapathy.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Adversarial Autoencoder">
+<meta property="og:url" content="https://dzapathy.github.io/2019/02/11/00004/index.html">
+<meta property="og:site_name" content="Apathy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/15/UjcJTCVhogf7zs6.jpg">
+<meta property="og:image" content="http://static.leiphone.com/uploads/new/article/740_740/201702/589978abeec64.png?imageMogr2/format/jpg/quality/90">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02i90btrbj20km0a1gm6.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02ib09k5uj20n101qmx5.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02ic6mauij20e809pjrf.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02id4doopj20n50faabv.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02jkgq2e8j20go05n0t6.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02i90btrbj20km0a1gm6.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02iev2m59j204k01aq2p.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g02iey3fbmj20n101qmx5.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02igqkc4bj20hk08cq34.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02igu0qn4j20j30713yu.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02igx3arxj20oq0cpmy2.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02iij21lhj20im0bmmyl.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02ikbiarcj206e01owea.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02igx3arxj20oq0cpmy2.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02ilobzucj209301n3yc.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02imygc17j20br08mmxd.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g02in1fz62j208x08ddg0.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02ipqrh9gj20ab08cglr.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02iptrfvuj20bw0by74v.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02ipwo8d0j20e50d1jrx.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g02ipzseo6j20pg084gn4.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g02iq445qmj20qa08odh6.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02ispb84oj20ip035mxf.jpg">
+<meta property="article:published_time" content="2019-02-11T07:36:16.000Z">
+<meta property="article:modified_time" content="2020-02-15T11:37:35.305Z">
+<meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Deep Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/15/UjcJTCVhogf7zs6.jpg">
+
+<link rel="canonical" href="https://dzapathy.github.io/2019/02/11/00004/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Adversarial Autoencoder | Apathy</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Apathy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://dzapathy.github.io/2019/02/11/00004/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+      <meta itemprop="name" content="Apathy">
+      <meta itemprop="description" content="没有肆意生长的野心<br>哪来梦想的星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Apathy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Adversarial Autoencoder
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-02-11 15:36:16" itemprop="dateCreated datePublished" datetime="2019-02-11T15:36:16+08:00">2019-02-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-15 19:37:35" itemprop="dateModified" datetime="2020-02-15T19:37:35+08:00">2020-02-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://i.loli.net/2020/02/15/UjcJTCVhogf7zs6.jpg" alt="MountHowitt_ZH-CN1042812457_1920x1080.jpg"></p>
+<a id="more"></a>
+
+<h2 id="相关理论"><a href="#相关理论" class="headerlink" title="相关理论"></a>相关理论</h2><p>对抗自编码器（AAE）是AE+GAN的生成模型，可以说是VAE和GAN的一种改进模型。<br>首先介绍一下生成式模型的基本方法，下图是 Goodfellow 2016年总结的和神经网络相关生成式方法的“家谱”。以极大似然为根节点，按照是否需要定义概率密度函数划分为：明确概率、没有明确概率。<br>明确概率又可以进一步划分为：准确求解、近似求解。准确求解就是可以直接通过数学方法来建模求解。但是在神经网络中，准确求解可能会出现时间复杂度极高、高维不可求、无法微分等问题。此时就需要通过近似求解来结果这种问题。近似求解可以分为：确定近似方法和随机近似方法。确定近似方法主要使用变分推断，采用最大化变分下界（确定的公式）的方法来求解，比如VAE就是使用变分推断求出变分下界，将潜在变量空间Z构造成高斯分布。随机方法也就是马尔科夫链蒙特卡洛采样这类算法，比如BM、RBM、DBN、DBM等，主要以MCMC算法为主。变分推断和蒙特卡洛采样其实挺相似的。在蒙特卡洛采样中，采样大量的样本来拟合真实数据的分布，而在变分推断中，使用简单分布来拟合真实数据分布。但是马尔科夫链蒙特卡洛采样速度慢并且不准确。<br>没有明确概率又可以分为：马尔科夫链蒙特卡洛采样、GAN两部分。今天要讲解的AAE就属于GAN的一种。<br>由于马尔科夫链蒙特卡洛采样需要进行大量的采样来拟合真实数据的分布，导致速度慢并且不准确。所以现在比较火的生成模型就是：VAE、GAN、pixel，在训练时可以直接采用BP算法，克服了MCMC训练存在的不足之处。<br><img data-src="http://static.leiphone.com/uploads/new/article/740_740/201702/589978abeec64.png?imageMogr2/format/jpg/quality/90" alt="generative model tree"></p>
+<h2 id="AAE"><a href="#AAE" class="headerlink" title="AAE"></a>AAE</h2><p>下面简单介绍一下AAE的模型。AAE是AE+GAN的生成模型，可以说是VAE和GAN的一种改进模型。<br>为什么是VAE的改进模型：VAE的目的是通过变分推断的方法使得潜在变量空间$z$服从多维高斯分布，而AAE的目的也是使得潜在变量空间$z$服从多维高斯分布。可以说说殊途同归的两种模型；<br>为什么是GAN的改进模型：AAE通过加入对抗网络的方法使得潜在变量空间$z$服从多维高斯分布；<br>AAE由两部分构成：<br>AE（编码器、解码器）：对于所有的自编码器来说其目标都是样本重构。自编码器首先通过编码器把高維空间中的向量$X$，压缩成低維向量$Z$(潜变量)，然后通过解码器把低維向量解压重构出$X$，然后使用均方差损失通过BP进行训练。如该图上半部分所示，编码器首先把一个样本手写字体1通过编码器压缩成一个低維向量$z$，然后通过解码器重构原始样本。<br>GAN（生成器、判别器）：判别器用于区分真样本和假样本，生成器用于生成假样本。AE的编码器相当于GAN的生成器。<br><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02i90btrbj20km0a1gm6.jpg" alt="Adversarial Autoencoders"><br>再介绍一下模型的变量：<br>$x$：输入样本数据向量;<br>$q(z|x)$：编码器分布函数;<br>$z$：潜在变量空间，编码出来的潜在变量，服从$z \sim q(z)$分布;<br>$q(z)$：AAE模型学习出来的分布;<br>$p(z)$：自己定义的任意先验分布，通常$N(0,I)$;<br>AAE的训练涉及到AE的训练和GAN的训练。AE训练比较简单，使用均方差作为损失函数，通过BP算法进行训练。由于涉及到GAN，下面来复习一下GAN。</p>
+<h2 id="GAN"><a href="#GAN" class="headerlink" title="GAN"></a>GAN</h2><p>下图是GAN的损失函数。下面以生成图片为例来说明一下GAN的公式和原理。<br><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02ib09k5uj20n101qmx5.jpg" alt="公式"><br>GAN由两部分构成：生成器、判别器。首先从左到右解释一下这个公式。$G$表示生成器，$D$表示判别器，$x$表示真实数据，$P_{data}(x)$表示真实数据的分布，$D(x)$表示判别器判断真实数据是否真实的概率，$z$表示随机噪声，$P_z(z)$表示噪声数据的分布，$G(z)$表示随机噪声通过生成器后生成的假图片、$D(G(z))$是判别器判断生成器生成的图片是否真实的概率。<br>再解释一下为什么要最小化$G$，最大化$D$：</p>
+<ul>
+<li>$G$是生成器，用于生成图片。它接收一个随机的噪声$z$，从噪声$z$中采样通过生成器来生成图片$G(z)$。生成器$G$的目的：$D(G(z))$是判别器判断生成器生成的图片是否真实的概率，生成器$G$应该希望自己生成的图片“越接近真实越好”。也就是说，$G$希望$D(G(z))$尽可能得大，这时$V(D,G)$会变小。所以式子最前面是最小化$G（min_G）$</li>
+<li>$D$是判别器，用于判别一张图片是不是“真实的”。它的输入参数是$x$，$G(z)$。考虑单样本，从真实数据分布中采样得到真样本$x$，经过判别器得到$D(x)$；将假样本$G(z)$输入判别器得到$D(G(z))$。判别器$D$的目的：$D$的能力越强，$D(x)$应该越大，$D(G(x))$应该越小。这时$V(D,G)$会变大。因此式子最前面是最大化$D（max_D）$<br><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02ic6mauij20e809pjrf.jpg" alt="gan"><br>在训练过程中，生成器$G$的目标就是尽量生成真实的图片去欺骗判别器$D$。而判别器$D$的目标就是尽量把生成器$G$生成的图片和真实图片区分出来。这样生成器$G$和判别器D构成了一个动态的“博弈过程”。在最理想的状态下，生成器$G$可以生成足以“以假乱真”的图片$G(z)$。对于$D$来说，它难以判定$G$生成的图片究竟是不是真实的，因此$D(G(z)) = 0.5$。<br>下面给出GAN训练的伪代码：<br><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02id4doopj20n50faabv.jpg" alt="GAN训练"><br>训练AAE时，在训练AAE的对抗网络时，使用的也是这种训练方法。<br>下面再通过一张图来直观的理解一下GAN的训练过程。黑色虚线是真实数据的高斯分布，绿色的线是生成器学习到的伪造分布，蓝色的线是判别器判定为真实图片的概率。（标x的横线代表服从高斯分布x的采样空间，标z的横线代表服从均匀分布的采样空间）同理，对于AAE来说，黑色虚线表示真实数据的分布p(z)，绿线表示潜在变量空间的分布q(z)，蓝色虚线表示经过判别器得到的概率。<br><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02jkgq2e8j20go05n0t6.jpg" alt="aae"></li>
+</ul>
+<h2 id="AAE训练"><a href="#AAE训练" class="headerlink" title="AAE训练"></a>AAE训练</h2><p><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02i90btrbj20km0a1gm6.jpg" alt="Adversarial Autoencoders"><br>对抗自编码器使用SGD算法进行训练，每个批训练可以分成两个过程：<br>(1)样本重构阶段<br>SGD更新自编码器的编码器和解码器的参数, 使得损失函数最小化:<br><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02iev2m59j204k01aq2p.jpg" alt="函数"><br>(2)正则化约束阶段<br>A. 首先更新判别器参数, 用于区分真实样本($p(z)$采样的样本,正样本）、自编码编码层生成样本$z(q(z)$负样本)<br>B. 然后更新生成器参数(自编码器的编码器),以此来提高混淆判别器的能力<br><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g02iey3fbmj20n101qmx5.jpg" alt="函数"></p>
+<h2 id="和VAE比较"><a href="#和VAE比较" class="headerlink" title="和VAE比较"></a>和VAE比较</h2><p>很多时候希望潜变量$z$服从于某个已知的先验分布$p(z)$，比如希望$z$的每个特征相互独立并且符合高斯分布；甚至在机器学习分类问题上，希望这个潜在的表征向量$z$与我们的分类标签有关。<br>AAE和VAE都可以在潜在变量空间生成高斯分布。在变分自编码器中，我们通过一大堆复杂的公式(如变分推理、参数变换等)，进行变分贝叶斯推导，构造变分下界，然后转换成KL散度、重新参数化等构造出损失函数，来使得编码潜变量$z$服从于高斯分布。<br><img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02igqkc4bj20hk08cq34.jpg" alt="公式"><br><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02igu0qn4j20j30713yu.jpg" alt="公式"><br>下面是变分自编码器的结构图。<br><img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02igx3arxj20oq0cpmy2.jpg" alt="VAE"><br>对抗自编码的目标也是如此，目的是约束潜在变量空间$Z$服从高斯分布。只不过其不需要一系列复杂的变分推理，而是借助于对抗网络训练的框架，就实现了$Z$的约束，使得$z$服从于高斯分布。<br>下图对抗自编码器和变分自编码器在手写数字集MNIST上的比较。ABCD是AAE、VAE经过数据降维、数据可视化转化成2维的结果图。每种颜色代表相关的标签。A、C表示z经过数据可视化转换成2维高斯生成的图。B、D表示z经过数据可视化转换成10个2维高斯生成的图。左图意在说明，对抗自编码器可以和变分自编码器一样使得z的分布服从高斯分布，甚至对抗自编码器的效果要优于变分自编码器（图中表现出尖锐的转变，潜在变量空间z施加高斯分布后，空间被填满）。E是经过训练的变分自编码器从潜在变量空间z采样，经过解码器生成的手写数字。<br><img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02iij21lhj20im0bmmyl.jpg" alt="实验"></p>
+<h2 id="AAE-p-z-x-选择"><a href="#AAE-p-z-x-选择" class="headerlink" title="AAE $p(z|x)$选择"></a>AAE $p(z|x)$选择</h2><p>$q(z|x)$的3种选择：</p>
+<ol>
+<li>确定性函数：$q(z|x)$是关于$x$的确定性函数。$q(z)$只与真实数据$x$有关；<br><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02ikbiarcj206e01owea.jpg" alt="公式"></li>
+<li>高斯后验：假设$q(z|x)$是一个高斯分布，其均值和方差由编码器网络预测：$z \sim N(μ,σ)$<br><img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02igx3arxj20oq0cpmy2.jpg" alt="图"></li>
+<li>通用近似后验：$q(z)$由数据分布$p_d(x)$和随机噪声$p_η(η)$决定。<br><img data-src="http://wx1.sinaimg.cn/mw690/9f1bc5a3ly1g02ilobzucj209301n3yc.jpg" alt="图"></li>
+</ol>
+<p>选择不同类型的$q(z|x)$可用于不同的任务。一般情况下后两种的效果要优于第一种。<br>$(z|x)$选择确定性函数情况下，网络必须通过利用数据分布的随机性来匹配$q(z)$和$p(z)$，但是由于数据的经验分布是固定的训练集，这可能产生不太平滑的$q(z)$。在高斯后验或通用近似后验的情况下，网络可以获得额外的随机性来源，可以产生平滑的$q(z)$</p>
+<h2 id="将标签信息纳入对抗网络"><a href="#将标签信息纳入对抗网络" class="headerlink" title="将标签信息纳入对抗网络"></a>将标签信息纳入对抗网络</h2><p><img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02imygc17j20br08mmxd.jpg" alt="图"><br>可以利用部分或完整标签信息来更加严格地规范自编码器的潜在表示。以10个二维高斯为例，加入标签的目的是强制每种高斯分布代表MNIST的单个标签。标签用one-hot向量表示，每个one-hot向量表示一个数字。加入标签之后训练的结果是每个高斯分布表示的是一类数字。<br><img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g02in1fz62j208x08ddg0.jpg" alt="图"></p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><ol>
+<li>监督对抗自编码器<br> <img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02ipqrh9gj20ab08cglr.jpg" alt="图"><br> 在上边的对抗自编码器的结构图中，将类标签信息以one-hot向量形式输入解码器，此时潜在变量空间$z$学习的是图片样式信息。解码器利用标签信息和样式信息重构图像，这种结构迫使网络保留独立于隐藏层z的标签的所有信息。<br> <img data-src="http://wx4.sinaimg.cn/mw690/9f1bc5a3ly1g02iptrfvuj20bw0by74v.jpg" alt="图"><br> 上图左图展示了在MNIST数字集上训练这种网络的结果。每一行重构图像的样式相同（例如字体）。</li>
+<li>半监督对抗自编码器<br> <img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02ipwo8d0j20e50d1jrx.jpg" alt="图"><br> 此时有两个对抗网络,第一个对抗网络用于约束标签类别分布$p(y)$,第二个对抗网络用于约束潜变量$z$的先验分布$p(z)$。自编码器的编码层$q(z,y|x)$用于预测标签$y$、潜变量$z$, 解码层$p(x|z,y)$输入预测标签$y、z$用于重构样本$X$。<br> $p(y) = Cat(y), p(z) = N (z|0,I),  x \sim P(x|z,y)$<br> 训练过程可以分成三个阶段:<br> (1)无监督重构阶段<br> (2)对抗正则化阶段<br> (3)半监督分类阶段:SGD更新$q(y|x)$以此最小化有标签数据交叉熵损失函数<br> <img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g02ipzseo6j20pg084gn4.jpg" alt="图"><br> 半监督对抗自编码器在MNIST和SVHN数据集上的半监督分类结果（错误率）</li>
+<li>对抗自编码器的无监督聚类<br> 对抗自编码器可以以无监督的方式从连续的潜在样式特征中分离出离散的分类特征。下图表示使用具有16个标签MNIST的AAE无监督聚类。每行对应于一个簇，第一个图像是簇头。<br> <img data-src="http://wx2.sinaimg.cn/mw690/9f1bc5a3ly1g02iq445qmj20qa08odh6.jpg" alt="图"><br> <img data-src="http://wx3.sinaimg.cn/mw690/9f1bc5a3ly1g02ispb84oj20ip035mxf.jpg" alt="图"><br> 无监督聚类，对抗自编码器在MNIST数据集上的聚类效果（错误率）并且随着标签数量的增长，AAE聚类的错误率在降低。<br>此外，对抗自编码器还可以用于特征提取、数据降维、数据可视化等方面。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>AAE是在自编码器中引入对抗网络，从而限制潜在变量空间$z$服从高斯分布，达到和变分自编码器相同的目的。而相较于变分自编码器、AAE灵活性更好，理论上可以用潜在变量空间$z$的分布来拟合任意分布（离散或连续），并在数据生成、聚类、数据降维、特征提取、数据可视化方面取得了较好的效果。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="http://blog.csdn.net/hjimce/article/details/54411244" target="_blank" rel="noopener">Adversarial Autoencoders学习笔记</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/27159510" target="_blank" rel="noopener">从PM到GAN</a></li>
+<li><a href="https://www.sohu.com/a/136528577_465975" target="_blank" rel="noopener">教程 | 通过PyTorch实现对抗自编码器</a></li>
+<li><a href="http://blog.csdn.net/yinruiyang94/article/details/77839048" target="_blank" rel="noopener">谈谈Adversarial Autoencoders</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Apathy WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/02/10/00003/" rel="prev" title="Java 并发基础">
+      <i class="fa fa-chevron-left"></i> Java 并发基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/02/11/00005/" rel="next" title="Mybatis反向工程配置文件">
+      Mybatis反向工程配置文件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关理论"><span class="nav-number">1.</span> <span class="nav-text">相关理论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AAE"><span class="nav-number">2.</span> <span class="nav-text">AAE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN"><span class="nav-number">3.</span> <span class="nav-text">GAN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AAE训练"><span class="nav-number">4.</span> <span class="nav-text">AAE训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#和VAE比较"><span class="nav-number">5.</span> <span class="nav-text">和VAE比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AAE-p-z-x-选择"><span class="nav-number">6.</span> <span class="nav-text">AAE $p(z|x)$选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将标签信息纳入对抗网络"><span class="nav-number">7.</span> <span class="nav-text">将标签信息纳入对抗网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">8.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">10.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Apathy"
+      src="http://wx4.sinaimg.cn/mw690/006qmw33ly8fzvcxv7effj30ru0ruaby.jpg">
+  <p class="site-author-name" itemprop="name">Apathy</p>
+  <div class="site-description" itemprop="description">没有肆意生长的野心<br>哪来梦想的星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dzapathy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dzapathy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>   
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
