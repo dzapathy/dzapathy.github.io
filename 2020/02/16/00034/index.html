@@ -32,8 +32,9 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/02/16/cjeO7x4fsUBDSHo.jpg">
 <meta property="article:published_time" content="2020-02-16T10:21:51.000Z">
-<meta property="article:modified_time" content="2020-02-16T11:07:01.836Z">
+<meta property="article:modified_time" content="2020-02-16T11:32:34.233Z">
 <meta property="article:author" content="Apathy">
+<meta property="article:tag" content="Code">
 <meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2020/02/16/cjeO7x4fsUBDSHo.jpg">
@@ -206,7 +207,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-02-16 18:21:51 / Modified: 19:07:01" itemprop="dateCreated datePublished" datetime="2020-02-16T18:21:51+08:00">2020-02-16</time>
+              <time title="Created: 2020-02-16 18:21:51 / Modified: 19:32:34" itemprop="dateCreated datePublished" datetime="2020-02-16T18:21:51+08:00">2020-02-16</time>
             </span>
 
           
@@ -226,7 +227,7 @@
 </blockquote>
 <a id="more"></a>
 
-<h2 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h2><h3 id="Go-下载"><a href="#Go-下载" class="headerlink" title="Go 下载"></a>Go 下载</h3><p>在 <a href="https://golang.google.cn/" target="_blank" rel="noopener">Go 官网</a> 下载并安装 Go。若使用 <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VS Code</a>，可在 VS Code 中安装 Go 辅助工具。在 VS Code 中按 ctrl + shift + p，输入 go install，全部勾选后按 enter 键即可。</p>
+<h2 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h2><h3 id="Go-安装"><a href="#Go-安装" class="headerlink" title="Go 安装"></a>Go 安装</h3><p>在 <a href="https://golang.google.cn/" target="_blank" rel="noopener">Go 官网</a> 下载并安装 Go。若使用 <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VS Code</a>，可在 VS Code 中安装 Go 辅助工具。在 VS Code 中按 ctrl + shift + p，输入 go install，全部勾选后按 enter 键即可。</p>
 <h3 id="Go-命令"><a href="#Go-命令" class="headerlink" title="Go 命令"></a>Go 命令</h3><h4 id="go-get"><a href="#go-get" class="headerlink" title="go get"></a>go get</h4><p>go get 命令可以借助代码管理工具通过远程拉取或更新代码包及其依赖包，并自动完成编译和安装。go get 具有很多参数：</p>
 <ul>
 <li>-d 只下载不安装</li>
@@ -236,7 +237,15 @@
 <li>-v 显示执行的命令</li>
 </ul>
 <h2 id="Gin"><a href="#Gin" class="headerlink" title="Gin"></a>Gin</h2><p>Gin 相关知识点可以在 <a href="https://gin-gonic.com/zh-cn/" target="_blank" rel="noopener">官网</a> 查询。</p>
-<h3 id="Gin-下载"><a href="#Gin-下载" class="headerlink" title="Gin 下载"></a>Gin 下载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/gin-gonic/gin</span><br></pre></td></tr></table></figure>
+<h3 id="Gin-安装"><a href="#Gin-安装" class="headerlink" title="Gin 安装"></a>Gin 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/gin-gonic/gin</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"net/http"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    r := gin.Default()</span><br><span class="line">    r.GET(<span class="string">"/ping"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">        c.JSON(http.StatusOK, gin.H&#123;</span><br><span class="line">            <span class="string">"message"</span>: <span class="string">"pong"</span>,</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    r.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Gorm"><a href="#Gorm" class="headerlink" title="Gorm"></a>Gorm</h2><h3 id="Gorm-安装"><a href="#Gorm-安装" class="headerlink" title="Gorm 安装"></a>Gorm 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/jinzhu/gorm</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"github.com/jinzhu/gorm"</span></span><br><span class="line">    _ <span class="string">"github.com/jinzhu/gorm/dialects/mysql"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    db, err := gorm.Open(<span class="string">"mysql"</span>,</span><br><span class="line">    <span class="string">"root:123456@(localhost)/apathy?charset=utf8&amp;parseTime=True&amp;loc=Local"</span>)</span><br><span class="line">    <span class="keyword">defer</span> db.Close()</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">"mysql connection error: %v"</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(<span class="string">"mysql connection success"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -261,6 +270,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/Code/" rel="tag"># Code</a>
               <a href="/tags/Go/" rel="tag"># Go</a>
           </div>
 
@@ -333,7 +343,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Go"><span class="nav-number">1.</span> <span class="nav-text">Go</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-下载"><span class="nav-number">1.1.</span> <span class="nav-text">Go 下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-命令"><span class="nav-number">1.2.</span> <span class="nav-text">Go 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#go-get"><span class="nav-number">1.2.1.</span> <span class="nav-text">go get</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gin"><span class="nav-number">2.</span> <span class="nav-text">Gin</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gin-下载"><span class="nav-number">2.1.</span> <span class="nav-text">Gin 下载</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Go"><span class="nav-number">1.</span> <span class="nav-text">Go</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-安装"><span class="nav-number">1.1.</span> <span class="nav-text">Go 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-命令"><span class="nav-number">1.2.</span> <span class="nav-text">Go 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#go-get"><span class="nav-number">1.2.1.</span> <span class="nav-text">go get</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gin"><span class="nav-number">2.</span> <span class="nav-text">Gin</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gin-安装"><span class="nav-number">2.1.</span> <span class="nav-text">Gin 安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gorm"><span class="nav-number">3.</span> <span class="nav-text">Gorm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gorm-安装"><span class="nav-number">3.1.</span> <span class="nav-text">Gorm 安装</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
