@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>Go Note</title>
+      <link href="/2020/02/16/00034/"/>
+      <url>/2020/02/16/00034/</url>
+      
+        <content type="html"><![CDATA[<p><img data-src="https://i.loli.net/2020/02/16/cjeO7x4fsUBDSHo.jpg" alt="bing"></p><blockquote><p>文章主要涉及 Go，以及 Gin、Gorm、Thrift 等 Go 框架的知识点，作为快速索引和查缺补漏的笔记。文章主要记录学习工作过程中容易遗忘的知识点，不会覆盖所有知识面。学到什么就记什么，故文章内容比较杂。</p></blockquote><a id="more"></a><h2 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h2><h3 id="Go-下载"><a href="#Go-下载" class="headerlink" title="Go 下载"></a>Go 下载</h3><p>在 <a href="https://golang.google.cn/" target="_blank" rel="noopener">Go 官网</a> 下载并安装 Go。若使用 <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VS Code</a>，可在 VS Code 中安装 Go 辅助工具。在 VS Code 中按 ctrl + shift + p，输入 go install，全部勾选后按 enter 键即可。</p><h3 id="Go-命令"><a href="#Go-命令" class="headerlink" title="Go 命令"></a>Go 命令</h3><h4 id="go-get"><a href="#go-get" class="headerlink" title="go get"></a>go get</h4><p>go get 命令可以借助代码管理工具通过远程拉取或更新代码包及其依赖包，并自动完成编译和安装。go get 具有很多参数：</p><ul><li>-d 只下载不安装</li><li>-f 不让 -u 验证 import 中的每一个都已经获取，对本地 fork 的包特别有用，只有在包含 -u 参数时才有效</li><li>-t 同时下载需要为运行测试所需要的包</li><li>-u 强制使用网络去更新包和它的依赖包</li><li>-v 显示执行的命令</li></ul><h2 id="Gin"><a href="#Gin" class="headerlink" title="Gin"></a>Gin</h2><p>Gin 相关知识点可以在 <a href="https://gin-gonic.com/zh-cn/" target="_blank" rel="noopener">官网</a> 查询。</p><h3 id="Gin-下载"><a href="#Gin-下载" class="headerlink" title="Gin 下载"></a>Gin 下载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/gin-gonic/gin</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>系统设计</title>
       <link href="/2019/06/20/00033/"/>
       <url>/2019/06/20/00033/</url>
